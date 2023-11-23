@@ -1,0 +1,19 @@
+type: code
+files:
+- name: main.js
+  visible: true
+  text: |-
+    let birthday = new Date("2000-03-24")
+
+    let firstDayInSchool = new Date("2008-09-01")
+
+
+    console.log(/* print your result */)
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/23073#comment
+status: Solved
+feedback:
+  message: <html>Correct solution</html>
+  time: "Mon, 14 Aug 2023 10:48:04 UTC"
+record: -1
+submission_language: javascript

@@ -1,0 +1,17 @@
+type: code
+files:
+- name: main.js
+  visible: true
+  highlight_level: NONE
+  text: |-
+    function three(arr) {
+        //write your code here
+    }
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/18292#comment
+status: Solved
+feedback:
+  message: <html>Correct solution</html>
+  time: "Thu, 03 Aug 2023 15:05:43 UTC"
+record: -1
+submission_language: javascript

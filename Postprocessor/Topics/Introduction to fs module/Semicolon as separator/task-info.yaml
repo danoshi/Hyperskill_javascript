@@ -1,0 +1,19 @@
+type: code
+files:
+- name: main.js
+  visible: true
+  text: |-
+    const fs = require('fs'); //do not change this line
+
+    const dataAsync = fs.readFile('main.js', /* lost code */, (err, data) => {
+        console.log(data.split(';')[ ); //part of the code is missing in this line
+    });
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/25767#comment
+status: Failed
+feedback:
+  message: |
+    Failed. Wrong answer
+  time: "Mon, 31 Jul 2023 12:00:01 UTC"
+record: -1
+submission_language: javascript

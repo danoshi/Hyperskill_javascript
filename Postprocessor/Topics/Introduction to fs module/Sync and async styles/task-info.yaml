@@ -1,0 +1,17 @@
+type: code
+files:
+- name: main.js
+  visible: true
+  text: "const fs = require('fs'); //do not change this line\n\nconst dataAsync =\
+    \ fs.readFile('main.js', 'utf-8' , (err, data) => {\n    console.log(data.split('\
+    \ ').slice(1)[0]);\n}); //you can delete this function at all\n\nconst dataSync\
+    \ = fs.readFileSync('main.js', 'utf-8'); \nconsole.log(dataSync.split(' ').slice(0)[0]);\n\
+    //or you can delete two lines above\n\nconsole.log('Finish');"
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/25765#comment
+status: Solved
+feedback:
+  message: <html>Correct solution</html>
+  time: "Mon, 31 Jul 2023 11:27:11 UTC"
+record: -1
+submission_language: javascript

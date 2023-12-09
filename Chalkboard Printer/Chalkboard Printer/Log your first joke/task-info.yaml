@@ -1,0 +1,78 @@
+type: remote_edu
+files:
+  - name: task.js
+    visible: true
+    text: |-
+      // Welcome to the Chalkboard Printer!
+      const input = require('sync-input');
+      
+      // These variables are already declared for you.
+      // Looks like we made a mistake and used 'var' instead of 'let'!
+      // Remember it's bad practice to use 'var', so let's change all of them to 'let'.
+          var name, surname, message;
+      
+      // Assign the correct values to the variables.
+      
+      // Log the message to the console 5 times.
+          console.log("Change this message!");
+          console.log("Change this message!");
+      // etc...
+      
+      // We have also imported the 'sync-input' package for you.
+      // You will use this in later stages.
+      // This package allows you to get user input.
+      // Like so:
+      // let name = input("Type your name: ");
+      // let age = Number(input("Type your age: "));
+    learner_created: false
+  - name: test/__init__.py
+    visible: false
+    learner_created: false
+  - name: test/tests.py
+    visible: false
+    text: |
+      from hstest import StageTest, CheckResult, dynamic_test, TestedProgram
+      
+      
+      class Feedback:
+          contain_msg = "Your output should contain the following message:\n"
+          repeat_msg = "You should repeat the message 5 times. Your repeat number: "
+      
+      
+      class ChalkboardPrinterTest(StageTest):
+          message = "This is Bart Simpson and I will not skateboard in the halls."
+      
+          # test if the output is correct
+          @dynamic_test
+          def test1(self):
+              main = TestedProgram(self.source_name)
+              output = main.start()
+              if self.message.strip() not in output.strip():
+                  return CheckResult.wrong(Feedback.contain_msg + self.message)
+      
+              # test if the message is repeated 5 times
+              repeated_msg = output.strip().split("\n")
+              if len(repeated_msg) != 5:
+                  return CheckResult.wrong(Feedback.repeat_msg + str(len(repeated_msg)))
+              return CheckResult.correct()
+      
+      
+      if __name__ == '__main__':
+          ChalkboardPrinterTest('task').run_tests()
+    learner_created: false
+  - name: tests.py
+    visible: false
+    text: |
+      from test.tests import ChalkboardPrinterTest
+      
+      
+      if __name__ == '__main__':
+          ChalkboardPrinterTest('task').run_tests()
+    learner_created: false
+feedback_link: https://hyperskill.org/projects/393/stages/2326/implement#comment
+check_profile: hyperskill_node_javascript
+status: Solved
+feedback:
+  message: <html>Correct solution</html>
+  time: "Fri, 24 Nov 2023 14:36:40 UTC"
+record: 1

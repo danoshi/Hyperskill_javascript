@@ -11,7 +11,8 @@ const input = require('sync-input');
 // Like so:
 
 function Output_Message(name, surname, message){
-    for (let i = 0; i < 5; i++){
+    let repeats = Number(input("Enter number of repeats: "))
+    for (let i = 0; i < repeats; i++){
          console.log("This is " + name + " " + surname + " and " + message)
     }
 }

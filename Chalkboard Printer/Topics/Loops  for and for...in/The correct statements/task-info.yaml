@@ -1,14 +1,14 @@
 type: choice
 is_multiple_choice: true
 options:
-  - text: the condition in which the loop stops is set in the first part in the parentheses
+  - text: The condition in which the loop stops is set in the first part in the parentheses
       of the for loop
-  - text: ' the for ... in loop passes only through the enumerable properties of the
-    object'
-  - text: the condition in which the loop stops is in the third part in the parentheses
-      of the for loop
-  - text: the initial value of the variable counter comes first in the parentheses of
+  - text: The initial value of the variable counter comes first in the parentheses of
       the for loop
+  - text: The condition in which the loop stops is in the third part in the parentheses
+      of the for loop
+  - text: ' The for ... in loop passes only through the enumerable properties of the
+    object'
 files:
   - name: main.js
     visible: true

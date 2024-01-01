@@ -1,10 +1,10 @@
 type: choice
 is_multiple_choice: true
 options:
-  - text: because it runs endlessly fast
-  - text: because it runs an infinite number of times
-  - text: because it consumes an infinite amount of energy
-  - text: because it runs endlessly long
+  - text: It consumes an infinite amount of energy
+  - text: It runs an infinite number of times
+  - text: It runs endlessly fast
+  - text: It runs endlessly long
 files:
   - name: main.js
     visible: true

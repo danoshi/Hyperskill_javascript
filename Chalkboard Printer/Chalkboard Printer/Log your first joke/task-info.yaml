@@ -69,7 +69,7 @@ files:
       if __name__ == '__main__':
           ChalkboardPrinterTest('task').run_tests()
     learner_created: false
-feedback_link: https://hyperskill.org/projects/393/stages/2326/implement#comment
+feedback_link: https://hyperskill.org/learn/step/37574#comment
 check_profile: hyperskill_node_javascript
 status: Solved
 feedback:

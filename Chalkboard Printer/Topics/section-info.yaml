@@ -1,3 +1,4 @@
 content:
   - Loops  for and for...in
   - Builtin JS Functions
+  - setTimeout and setInterval

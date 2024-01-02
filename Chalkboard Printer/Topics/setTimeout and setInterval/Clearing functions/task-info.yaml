@@ -1,0 +1,23 @@
+type: matching
+captions:
+  - setTimeout
+  - setInterval
+  - a function that doesn't exist
+options:
+  - clearInterval
+  - clearTimeout
+  - intervalClear
+files:
+  - name: main.js
+    visible: true
+    text: |+
+      // You can experiment here, it won’t be checked
+    
+    learner_created: false
+feedback_link: https://hyperskill.org/learn/step/9733#comment
+status: Solved
+record: -1
+ordering:
+  - 0
+  - 1
+  - 2

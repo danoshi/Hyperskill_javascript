@@ -1,0 +1,22 @@
+type: choice
+is_multiple_choice: false
+options:
+  - text: setInterval supports stopping the task in a specific time while setTimeout
+      doesn’t have such ability.
+  - text: setTimeout permits to start only one function a time while setInterval allows
+      calling different functions in a particular interval.
+  - text: "setInterval enables to execute the function with several variables, while\
+    \ setTimeout is allowed to do it only with one argument."
+  - text: setTimeout method allows to launch the function once while setInterval allows
+      doing it several times.
+files:
+  - name: main.js
+    visible: true
+    text: |+
+      // You can experiment here, it won’t be checked
+    
+    learner_created: false
+feedback_link: https://hyperskill.org/learn/step/9682#comment
+status: Solved
+record: -1
+local_check: false

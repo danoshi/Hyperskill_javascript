@@ -1,0 +1,18 @@
+type: choice
+is_multiple_choice: false
+options:
+  - text: Zero delay in setTimeout is used to call the function with arguments
+  - text: setTimeout is called immediately after the page loaded
+  - text: The browser skips setTimeout with zero delay
+  - text: setTimeout is called as soon as current code has been executed
+files:
+  - name: main.js
+    visible: true
+    text: |+
+      // You can experiment here, it won’t be checked
+    
+    learner_created: false
+feedback_link: https://hyperskill.org/learn/step/9684#comment
+status: Solved
+record: -1
+local_check: false

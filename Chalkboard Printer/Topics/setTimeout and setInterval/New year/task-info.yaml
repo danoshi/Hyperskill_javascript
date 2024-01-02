@@ -1,0 +1,26 @@
+type: code
+files:
+  - name: main.js
+    visible: true
+    highlight_level: NONE
+    text: |-
+      let days = 5;
+      
+      function greetings() {
+        const intervalId = ...
+          ...
+      
+          if (count === 0) {
+            clearInterval(...);
+            console.log(...);
+          }
+        });
+      }
+    learner_created: false
+feedback_link: https://hyperskill.org/learn/step/28200#comment
+status: Solved
+feedback:
+  message: <html>Correct solution</html>
+  time: "Tue, 02 Jan 2024 23:04:55 UTC"
+record: -1
+submission_language: javascript

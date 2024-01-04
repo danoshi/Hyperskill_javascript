@@ -1,0 +1,33 @@
+type: code
+custom_name: Are they close neighbors?
+files:
+  - name: main.js
+    visible: true
+    text: |-
+      const readline = require('readline');
+      
+      /* Do not change code above */
+      
+      function sequentialCharTest(str) {
+        //Write your code here
+      }
+      
+      /* Do not change code below */
+      
+      const rl = readline.createInterface({
+        input: process.stdin,
+        output: process.stdout
+      });
+      
+      rl.on('line', (input) => {
+        const result = sequentialCharTest(input);
+        console.log(result);
+      });
+    learner_created: false
+feedback_link: https://hyperskill.org/learn/step/31447#comment
+status: Solved
+feedback:
+  message: <html>Correct solution</html>
+  time: "Thu, 04 Jan 2024 19:59:16 UTC"
+record: -1
+submission_language: javascript

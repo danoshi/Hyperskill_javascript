@@ -1,0 +1,32 @@
+type: code
+custom_name: Hello summer!
+files:
+  - name: main.js
+    visible: true
+    text: |-
+      function codeValuesToString(codeValues) {
+        let result = '';
+        /* Do not change code above */
+      
+        //Write your code here
+      
+        /* Do not change code below */
+        return result;
+      }
+      
+      process.stdin.setEncoding('utf8');
+      process.stdin.on('data', (data) => {
+        const inputArray = data.trim().split(/,\s*/).map(Number);
+      
+        const outputString = codeValuesToString(inputArray);
+      
+        process.stdout.write(outputString);
+      });
+    learner_created: false
+feedback_link: https://hyperskill.org/learn/step/31446#comment
+status: Solved
+feedback:
+  message: <html>Correct solution</html>
+  time: "Thu, 04 Jan 2024 20:22:53 UTC"
+record: -1
+submission_language: javascript

@@ -4,3 +4,8 @@ content:
   - setTimeout and setInterval
   - Unicode functions
   - Function constructor
+  - Random  getting and generating
+  - Intro to crypto module
+  - Scope of variables
+  - For ... in for Objects
+  - Break and continue statements

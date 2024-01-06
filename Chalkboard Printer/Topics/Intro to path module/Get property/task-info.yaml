@@ -1,0 +1,19 @@
+type: code
+files:
+  - name: main.js
+    visible: true
+    highlight_level: NONE
+    text: |-
+      const path = require('path');
+      
+      const fullPath = 'user/folders/work/agreement.pdf';
+      
+      const dir = /* write your code here */
+    learner_created: false
+feedback_link: https://hyperskill.org/learn/step/27904#comment
+status: Solved
+feedback:
+  message: <html>Correct solution</html>
+  time: "Sat, 06 Jan 2024 14:06:55 UTC"
+record: -1
+submission_language: javascript

@@ -1,0 +1,69 @@
+<h2>Intro to path module</h2>
+<div class="step-text">
+<p>The <code class="language-javascript">Path</code> module is a useful tool to work with paths and directories. It can merge directories, parse them, get the current file's or directory's name, and even more. The way paths are constructed is different on POSIX and Windows. For example, POSIX uses '/' in paths, whereas Windows goes with '\'. The <code class="language-javascript">path</code> module takes it into account and provides functions that help us stay consistent across different platforms. That means that our projects will work fine on any of these OS platforms.</p>
+<p>Are you ready? Let's dive deep into it then!</p>
+<h5 id="get-directory-and-filename">Get directory and filename</h5>
+<p>Imagine we want to see what directory our file is located in. If we have a full path name, we can easily find the parent directory of our file. Let's import our path module by writing <code class="language-javascript">const path = requre('node:path');</code> and see the <code class="language-javascript">dirname</code> function in action:</p>
+<pre><code class="language-javascript">const path = require('node:path');
+
+const fullpath = 'Users/El/node-course/be-cool.js';
+
+const dirname = path.dirname(fullpath);
+
+console.log(dirname); // Users/El/node-course</code></pre>
+<p>As you can see, we passed in the full path to the <code class="language-javascript">dirname</code> function and got a path that is parent to the be-cool.js file. </p>
+<p>Now let's find the tail of our path, that is whatever comes at the end of the path. It can be retrieved with the <code class="language-javascript">basename</code> function. Here's an example:</p>
+<pre><code class="language-javascript">const basename = path.basename(fullpath);
+const basenameNoExt = path.basename(fullpath, '.js')
+
+console.log(basename); // be-cool.js
+console.log(basenameNoExt); // be-cool</code></pre>
+<p>The <code class="language-javascript">basename</code> function takes a path as the first parameter and an extension as the second optional parameter. In our example above, we first logged the basename with the extension and then without it. So if you provide the second parameter, the program will omit the extension and only output the file name.</p>
+<p>The third method we'd like to cover is <code class="language-javascript">extname</code>. Can you guess what it does? As the name of the method suggests, it returns the extension of a path. If the path contains several full stops (.), we'll get the last occurrence of it. Take a look:</p>
+<pre><code class="language-javascript">path.extname('learn-node/path/extname.html') // returns .html
+path.extname('learn-node/path/extname.'); // returns .
+path.extname('learn-node/path/extname.md.js'); // returns .js
+path.extname('learn-node/path/extname');  // returns ''</code></pre>
+<p>Pretty straightforward! We've seen <code class="language-javascript">dirname</code>, <code class="language-javascript">basename</code>, and <code class="language-javascript">extname</code> so far, time to move on to joining paths.</p>
+<h5 id="join-paths">Join paths</h5>
+<p><code class="language-javascript">join</code> and <code class="language-javascript">resolve</code> are the two most common methods of the <code class="language-javascript">path</code> module. Developers use them all the time, especially when creating directories with the <code class="language-javascript">fs</code> module. The methods look similar, though return different results. In short, <code class="language-javascript">join</code> just concatenates given segments of a path into a single string, whereas <code class="language-javascript">resolve</code> merges path segments into an absolute path. Let's compare the two with different examples.</p>
+<p></p><div class="alert alert-primary">You can learn more about paths in <a href="https://hyperskill.org/learn/step/13025" rel="noopener noreferrer nofollow" target="_blank">this</a> topic.</div>
+<ol>
+<li>Join simple fragments:</li>
+</ol>
+<pre><code class="language-javascript">path.join('one', 'two', 'three'); // returns one\two\three
+path.resolve('one', 'two', 'three'); // returns C:\Users\El\node-course\one\two\three</code></pre>
+<p>If you console log the results, you should see that the first method put three parts of the path into one string, whilst the second one constructed an absolute path out of the given parts. You may ask, why not use string concatenation like <code class="language-javascript">'one' + '\two' + '\three'</code> instead of <code class="language-javascript">join</code>? Good question! As we've discussed at the beginning, POSIX and non-POSIX systems use different path separators (/ vs \). Without the <code class="language-javascript">path.join()</code> method, we'd have to write two different codes to support both systems. Thanks to the <code class="language-javascript">path</code> module, it handles it itself.</p>
+<p>     2. Handle fragments with '/':</p>
+<pre><code class="language-javascript">path.join('/one', '/two', 'three'); // returns \one\two\three
+path.resolve('/one', '/two', 'three'); // returns C:\two\three</code></pre>
+<p>Here, we added forward slashes before the first two segments. The first method works as expected but take a look at the <code class="language-javascript">resolve</code> function: it ignored the first argument. It goes from right to left and once it encounters a forward slash, it starts to treat it as the root path and ignores everything that comes after it (in our case '/one'). Try to play around with <code class="language-javascript">resolve</code> a bit to better understand its caveats.</p>
+<p></p><div class="alert alert-primary"> In a lot of cases, you might see developers use two environmental variables when working with paths. These are <code class="language-javascript">__dirname</code> and <code class="language-javascript">__filename</code>. </div>
+<h5 id="parse-and-format">Parse and format</h5>
+<p><code class="language-javascript">Parse</code> and <code class="language-javascript">format</code> are two opposite functions. The former parses a string into an object, and the latter builds up a string from a given object. Here's the <code class="language-javascript">parse</code> function:</p>
+<pre><code class="language-javascript">path.parse('/courses/node/stay-cool.js');</code></pre>
+<p>After logging this into the console, you will get the following result: the root, the directory, the base and the name, which are identical, and the extension.</p>
+<p> <picture><source media="(max-width: 480px)" srcset="https://ucarecdn.com/fc1ccce0-bc6a-4e2f-aed3-6682ecd47efe/-/stretch/off/-/resize/480x/-/format/webp/ 1x,https://ucarecdn.com/fc1ccce0-bc6a-4e2f-aed3-6682ecd47efe/-/stretch/off/-/resize/960x/-/format/webp/ 2x,https://ucarecdn.com/fc1ccce0-bc6a-4e2f-aed3-6682ecd47efe/-/stretch/off/-/resize/1440x/-/format/webp/ 3x" type="image/webp"/><source media="(max-width: 800px)" srcset="https://ucarecdn.com/fc1ccce0-bc6a-4e2f-aed3-6682ecd47efe/-/stretch/off/-/resize/800x/-/format/webp/ 1x,https://ucarecdn.com/fc1ccce0-bc6a-4e2f-aed3-6682ecd47efe/-/stretch/off/-/resize/1600x/-/format/webp/ 2x,https://ucarecdn.com/fc1ccce0-bc6a-4e2f-aed3-6682ecd47efe/-/stretch/off/-/resize/2400x/-/format/webp/ 3x" type="image/webp"/><source srcset="https://ucarecdn.com/fc1ccce0-bc6a-4e2f-aed3-6682ecd47efe/-/stretch/off/-/resize/1100x/-/format/webp/ 1x,https://ucarecdn.com/fc1ccce0-bc6a-4e2f-aed3-6682ecd47efe/-/stretch/off/-/resize/2200x/-/format/webp/ 2x,https://ucarecdn.com/fc1ccce0-bc6a-4e2f-aed3-6682ecd47efe/-/stretch/off/-/resize/3000x/-/format/webp/ 3x" type="image/webp"/><img alt="path-object" height="139" name="76c25ae7ed.jpg" src="https://ucarecdn.com/fc1ccce0-bc6a-4e2f-aed3-6682ecd47efe/" width="258"/></picture></p>
+<p>The opposite behavior can be achieved with the <code class="language-javascript">format</code> method. It takes an object as a parameter with the following properties: <code class="language-javascript">dir</code>, <code class="language-javascript">root</code>, <code class="language-javascript">base</code>, <code class="language-javascript">name</code>, <code class="language-javascript">ext</code>. Basically, the same things that we got in our previous example. These properties have priorities, so if you specify all of them, some of them might be ignored if they are of lower priority. You may read more about it in <a href="https://nodejs.org/api/path.html#pathformatpathobject" rel="noopener noreferrer nofollow" target="_blank">Node.js Docs</a>. </p>
+<p>Here are a couple of examples on Windows, with explanations given as comments:</p>
+<pre><code class="language-javascript">// root is ignored if dir is povided
+// returns \stay-calm\and\learn-nodejs\path-module.txt
+
+path.format({
+   root: 'C:\\have-agood-day',
+   dir: '\\stay-calm\\and\\learn-nodejs',
+   base: 'path-module.txt',
+});
+
+// ext is ignored if base is provided
+// returns C:\docs\my-doc.html
+
+path.format({
+   root: 'C:\\docs\\',
+   base: 'my-doc.html',
+   ext: '.css',
+});</code></pre>
+<p>Note that this will work differently on POSIX. Please, take a look at <a href="https://nodejs.org/api/path.html#pathformatpathobject" rel="noopener noreferrer nofollow" target="_blank">Node.js Docs</a> for more info.</p>
+<h5 id="conclusion">Conclusion</h5>
+<p>We've covered the main methods of the <code class="language-javascript">path</code> module, including joining and parsing paths, formatting path objects, and getting info about a given directory or file. This built-in module allows us to work with paths in an OS-independent way, meaning it's suitable for both POSIX and non-POSIX platforms.</p>
+</div>

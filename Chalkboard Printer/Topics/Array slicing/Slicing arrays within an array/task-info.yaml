@@ -1,0 +1,19 @@
+type: choice
+is_multiple_choice: false
+options:
+  - text: "<pre><code class=\"language-js\">arr[1][1].slice(1, 3);</code></pre>"
+  - text: "<pre><code class=\"language-js\">arr[1].slice(0, 2);</code></pre>"
+  - text: "<pre><code class=\"language-js\">arr[1].slice(1, 3);</code></pre>"
+  - text: "<pre><code class=\"language-js\">arr[1].slice(2, 4);</code></pre>"
+  - text: "<pre><code class=\"language-js\">arr.slice(1, 3);</code></pre>"
+files:
+  - name: main.js
+    visible: true
+    text: |+
+      // You can experiment here, it won’t be checked
+    
+    learner_created: false
+feedback_link: https://hyperskill.org/learn/step/33613#comment
+status: Unchecked
+record: -1
+local_check: false

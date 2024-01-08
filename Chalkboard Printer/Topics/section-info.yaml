@@ -10,3 +10,6 @@ content:
   - For ... in for Objects
   - Break and continue statements
   - Intro to path module
+  - Multiple conditions. Switch...case statement
+  - Array slicing
+  - Array iterating

@@ -1,0 +1,24 @@
+<h2>Unlocking promise methods in JavaScript</h2>
+<div class="step-text">
+<div class="alert alert-warning">Hey there! This problem might be a bit unpredictable, but give it a go and let us know how you do!</div>Consider the following JavaScript code snippet. The 'then', 'catch', and 'finally' keywords are used for promise chaining. What are their exact roles in the chaining process and what order will they be executed in? 
+<pre><code class="language-javascript">
+let dataFetch = new Promise((resolve, reject) =&gt; {
+  setTimeout(() =&gt; {
+    if(Math.random() &gt; 0.5) {
+      resolve('Data fetched successfully!');
+    } else {
+      reject('Data fetching failed!');
+    }
+  }, 2000);
+});
+
+dataFetch
+  .then(response =&gt; {
+    console.log(response);
+    return 'Processing data...';
+  })
+  .then(message =&gt; console.log(message))
+  .catch(error =&gt; console.error(error))
+  .finally(() =&gt; console.log('Operation Complete'));
+</code></pre>
+</div>

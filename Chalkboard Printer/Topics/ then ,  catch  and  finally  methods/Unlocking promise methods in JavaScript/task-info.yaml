@@ -1,0 +1,30 @@
+type: choice
+is_multiple_choice: false
+options:
+  - text: "&#x27;catch&#x27; handles an unsuccessful outcome and errors in &#x27;then&#x27;;\
+    \ &#x27;finally&#x27; will be executed immediately after &#x27;catch&#x27;, whether\
+    \ or not an error has been thrown."
+  - text: "&#x27;then&#x27; displays the fetch response, &#x27;then&#x27; logs &#x27;Processing\
+    \ data...&#x27;, &#x27;catch&#x27; deals with errors, and &#x27;finally&#x27;\
+    \ logs &#x27;Operation Complete&#x27;; these methods will run in this order regardless\
+    \ of the outcome."
+  - text: All &#x27;then&#x27; and &#x27;catch&#x27; methods are executed first in the
+      order they appear in the chain; &#x27;finally&#x27; is only called if no errors
+      have been thrown in any preceding &#x27;then&#x27; methods.
+  - text: '&#x27;finally&#x27; executes operations that occur regardless of the outcome
+    first; &#x27;then&#x27; and &#x27;catch&#x27; handle successful outcomes and errors
+    respectively.'
+  - text: '&#x27;then&#x27; handles a successful outcome and operations within &#x27;then&#x27;
+    are executed sequentially; &#x27;catch&#x27; handles an unsuccessful outcome;
+    &#x27;finally&#x27; will be executed at the end regardless of the outcome.'
+files:
+  - name: main.js
+    visible: true
+    text: |+
+      // You can experiment here, it won’t be checked
+    
+    learner_created: false
+feedback_link: https://hyperskill.org/learn/step/33681#comment
+status: Solved
+record: -1
+local_check: false

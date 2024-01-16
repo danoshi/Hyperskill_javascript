@@ -1,0 +1,33 @@
+<h2>What is TypeScript?</h2>
+<div class="step-text">
+<p><strong>TypeScript</strong> is closely related to JavaScript, so learning one can't go without mentioning the other. In this topic, we'll compare TypeScript and JavaScript to understand why add-ons exist on top of pure JavaScript.</p>
+<h5 id="javascript-issues">JavaScript issues</h5>
+<p>First, it's important to remember that JavaScript is an interpreted, dynamic, and lightweight language.<strong> Dynamic typing</strong> means that we don't have to state the type of variable in the program explicitly. JavaScript stands out even among other dynamic programming languages because it is weak-typed. <strong>Weak typing</strong> means that the programming language performs many implicit type conversions, so it can, for example, perform arithmetic operations on different data types.</p>
+<pre><code class="language-javascript">console.log(1 / "") //It prints Infinity value
+
+console.log(1 - '2') //The value -1 is displayed in the console</code></pre>
+<p>That is, JavaScript always tries to produce some result of an expression, even if the notation is illogical. In the examples above, the string is implicitly converted to a number. Then, an arithmetic operation is performed, which doesn't produce an error either, although division by zero is not allowed in many programming languages!</p>
+<p>You can see that using JavaScript without types is very dangerous for large projects with thousands or even tens of thousands of lines of code. Some implicit conversions are not obvious and introduce bugs that are hard to catch.</p>
+<h5 id="typescript-basics">TypeScript basics</h5>
+<p>TypeScript is a strong syntactic superset of JavaScript that adds the ability to type the language statically. It is an open-source language created by Microsoft in 2012. Since TypeScript is a superset of JavaScript, it executes any code written in JavaScript. It also executes wherever pure JavaScript is used.</p>
+<p>TypeScript solves the problems we've been discussing. It adds types, and we can create a large application with fewer bugs and catch errors while coding, before runtime. IDEs often implicitly use TypeScript to parse JavaScript code and notify the user of errors during development.</p>
+<p>Of course, you should remember that for JavaScript <code class="language-javascript">.js</code> is a file extension, while for TypeScript it is <code class="language-javascript">.ts</code>.</p>
+<p>A necessary clarification is that the TypeScript type system is only active during development. It helps you catch bugs and incorrect program behavior, and type annotation tells you where you've incorrectly assigned a value of another type to some variable. Your browser or node.js is running JavaScript at program runtime, not TypeScript.</p>
+<p>For clarity, here are two examples of the same code in TypeScript and JavaScript:</p>
+<pre><code class="language-javascript">function sumOfNumber(first: number, second: number, name?: string): void {
+    console.log(`Hello dear ${name ?? 'user'}`)
+    console.log(`The sum is ${first + second}`)
+}
+
+sumOfNumber(11, 2, 'Alex')</code></pre>
+<p>We explicitly specified the type of each function argument. The <code class="language-javascript">name</code> argument is an optional parameter, so we put <code class="language-javascript">?</code> after the argument name. We also explicitly indicated that our function should not return anything, so after the arguments, we wrote the <code class="language-javascript">: void</code> construction.</p>
+<pre><code class="language-javascript">function sumOfNumber(first, second, name = "") {
+    console.log(`Hello dear ${name ?? 'user'}`)
+    console.log(`The sum is ${first + second}`)
+}
+
+sumOfNumber(11, "2", 'Alex')</code></pre>
+<p>In JavaScript, instead of an optional argument, we give it a default value, which is like being optional in some way. Moreover, we can safely put a string when calling the function instead of the second value with the number type. The IDE will not warn us of a bug, which is why it's better to use TypeScript. Otherwise, we'll face all those problems during development.</p>
+<h5 id="conclusion">Conclusion</h5>
+<p>In this topic, we discussed the main differences and similarities between JavaScript and TypeScript. We looked at some code fragments implemented in two languages, discussing the advantages of using static typing. You also learned that it's standard practice for large projects to use TypeScript, which compiles to JavaScript when using the browser or node.js.</p>
+</div>

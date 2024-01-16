@@ -1,0 +1,21 @@
+type: choice
+is_multiple_choice: true
+options:
+  - text: "JavaScript is a lightweight Java language, so TypeScript and Java are the\
+    \ same."
+  - text: TypeScript can execute code written in JavaScript.
+  - text: TypeScript was created to add static typing to the very popular JavaScript
+      language.
+  - text: "The two languages appeared at the same time, and JavaScript is just a lightweight\
+    \ version of TypeScript."
+files:
+  - name: main.js
+    visible: true
+    text: |+
+      // You can experiment here, it won’t be checked
+    
+    learner_created: false
+feedback_link: https://hyperskill.org/learn/step/35315#comment
+status: Solved
+record: -1
+local_check: false

@@ -1,0 +1,21 @@
+type: choice
+is_multiple_choice: true
+options:
+  - text: "You cannot write code in TypeScript, it is implicitly used only in the IDE\
+    \ for debugging."
+  - text: "TypeScript allows you to explicitly define the type of variables, which reduces\
+    \ chances of bugs."
+  - text: "TypeScript is a dynamically typed language, so developing in it is faster."
+  - text: "TypeScript compiles to JavaScript, so it's a painless transition to a statically\
+    \ typed language."
+files:
+  - name: main.js
+    visible: true
+    text: |+
+      // You can experiment here, it won’t be checked
+    
+    learner_created: false
+feedback_link: https://hyperskill.org/learn/step/35312#comment
+status: Solved
+record: -1
+local_check: false

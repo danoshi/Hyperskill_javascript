@@ -1,0 +1,18 @@
+type: choice
+is_multiple_choice: true
+options:
+  - text: <code>slice()</code>
+  - text: <code>toString()</code>
+  - text: <code>splice()</code>
+  - text: <code>shift()</code>
+files:
+  - name: main.js
+    visible: true
+    text: |+
+      // You can experiment here, it won’t be checked
+    
+    learner_created: false
+feedback_link: https://hyperskill.org/learn/step/36203#comment
+status: Solved
+record: -1
+local_check: false

@@ -1,0 +1,157 @@
+<h2>Readline module</h2>
+<div class="step-text">
+<p>The <code class="language-javascript">readline</code> module in Node.js is a built-in interface that allows reading a stream (like process.stdin) on a line-by-line basis. It is particularly useful when you want to read user input from the command line or read a large file line by line to save memory. In this topic, you will explore the properties and methods of the <code class="language-javascript">readline</code> module.</p>
+<h5 id="create-interface">Create interface</h5>
+<p>To interact with a user, you need to create an interface object for both the input and the output:</p>
+<pre><code class="language-javascript">// import the readline module
+const readline = require('readline'); 
+ 
+// create interface
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout
+});
+</code></pre>
+<p>Here, the <code class="language-javascript">createInterface()</code> method takes two arguments. The first one is for the standard input — <code class="language-javascript">process.stdin</code>, and the second one is for the standard output — <code class="language-javascript">process.stdout</code>. The <code class="language-javascript">createInterface()</code> method can take other optional arguments like <code class="language-javascript">completer</code> which is used for <code class="language-javascript">Tab</code> autocompletion. You can check the full list of <a href="https://nodejs.org/api/readline.html#readlinepromisescreateinterfaceoptions" rel="noopener noreferrer nofollow" target="_blank">optional arguments</a>.</p>
+<p></p><div class="alert alert-primary">The <code class="language-javascript">process.stdin</code> and <code class="language-javascript">process.stdout</code> are built-in streams provided by Node.js. They are associated with the standard input and standard output of the process respectively. <code class="language-javascript">process.stdin</code> is a readable stream and it is commonly used to read data from the console in command-line programs. For example, you can use it to read users' responses to prompts. <code class="language-javascript">process.stdout</code> is a writable stream and it is commonly used to print data to the console. For instance, when you use <code class="language-javascript">console.log()</code>, the command is actually written to <code class="language-javascript">process.stdout</code>.</div>
+<h5 id="ask-a-question">Ask a question</h5>
+<p>To ask a question to the user and read the output, use the <code class="language-javascript">rl.question()</code> method. Take a look at the following snippet:</p>
+<pre><code class="language-javascript">// ask a question
+rl.question('What is your name? ', (answer) =&gt; {
+  console.log(`Nice to meet you, ${answer}`);
+
+  // close the interface
+  rl.close();
+});</code></pre>
+<p>In this example, <code class="language-javascript">rl.question</code> is used to ask the user a question. The user's response is then passed as an argument to the callback function, which logs a greeting to the console. The <code class="language-javascript">rl.close</code> method is used to close the readline interface once the user interaction is complete. If you don't close the interface, the program waits for user input indefinitely.</p>
+<p>The output of the program will be:</p>
+<pre><code class="language-no-highlight">What is your name? Bert
+Nice to meet you, Bert</code></pre>
+<h5 id="set-and-handle-a-prompt">Set and handle a prompt</h5>
+<p>You can also set specific prompts and use them in your program:</p>
+<pre><code class="language-javascript">// set the prompt
+rl.setPrompt('Enter your age: ');
+
+// display the prompt
+rl.prompt();
+
+// handle user input
+rl.on('line', (input) =&gt; {
+  console.log(`Age of the user: ${input}`);
+  rl.close();
+});
+</code></pre>
+<p>In this example, <code class="language-javascript">rl.setPrompt('Enter your age: ');</code> sets the prompt that is displayed when <code class="language-javascript">rl.prompt()</code> is called. When the user types a line of text and presses <strong>Enter</strong> key, the 'line' event is triggered, and the callback function is called with the line of text that the user typed.</p>
+<p>Note that <code class="language-javascript">rl.on('line', callback)</code> sets a listener for the '<strong>line</strong>' event, which is emitted whenever the input stream receives an end-of-line input (<code class="language-javascript">\n</code>, <code class="language-javascript">\r</code>, or <code class="language-javascript">\r\n</code>). This way, it is possible to get the user's input after they type it.</p>
+<p>The output of the program is:</p>
+<pre><code class="language-no-highlight">Enter your age: 25
+Age of the user: 25</code></pre>
+<h5 id="events">Events</h5>
+<p>The Node.js <code class="language-javascript">readline</code> module provides several events that you can listen to. Here are some of the common events:</p>
+<ol>
+<li><strong>'line' </strong>— This event is emitted whenever the input stream receives an end-of-line input, for example, <code class="language-javascript">\n</code>, <code class="language-javascript">\r</code>, or <code class="language-javascript">\r\n</code>. The listener function is called with a string that contains a single line of the received input.</li>
+<li><strong>'close' </strong>— This event is emitted when <code class="language-javascript">rl.close()</code> is called. The input stream receives its 'end' event, or the input stream is provided with the <code class="language-javascript">SIGINT</code> event — <code class="language-javascript">Ctrl+C</code>. This typically means the user has finished their input.</li>
+<li><strong>'pause' </strong>— This event is emitted when the input stream is paused.</li>
+<li><strong>'resume' </strong>— This event is emitted when the input stream is resumed.</li>
+<li><strong>'SIGINT' </strong>— This event is emitted whenever the input stream receives a <code class="language-javascript">SIGINT</code> event, typically as a result of the user pressing <code class="language-javascript">Ctrl+C</code>. This is often used to handle custom cleanup or other tasks when the user interrupts the program.</li>
+</ol>
+<p>These events provide a lot of flexibility in handling user input and help control the behavior of your command-line interface. You can check the rest of the events on the <a href="https://nodejs.org/api/readline.html#event-close" rel="noopener noreferrer nofollow" target="_blank">official Node.js documentation</a> page.</p>
+<p>Here's an example that implements all of the mentioned events:</p>
+<pre><code class="language-javascript">const readline = require('readline');
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout
+});
+
+rl.question('What is your name? ', (name) =&gt; {
+  console.log(`Hello, ${name}!`);
+  
+  rl.on('line', (input) =&gt; {
+    console.log(`You typed: ${input}`);
+  });
+
+  rl.on('pause', () =&gt; {
+    console.log('Readline paused.');
+  });
+
+  rl.on('resume', () =&gt; {
+    console.log('Readline resumed.');
+  });
+
+  rl.on('SIGINT', () =&gt; {
+    console.log('SIGINT received. Exiting...');
+    rl.close();
+  });
+
+  rl.on('close', () =&gt; {
+    console.log('Readline closed.');
+    process.exit(0);
+  });
+});
+</code></pre>
+<h5 id="use-cases">Use cases</h5>
+<p>The <code class="language-javascript">readline</code> module in Node.js is a tool for handling user input and output in console-based applications. Here are a few things you can do with it:</p>
+<ol>
+<li>
+<p><strong>Interactive Command Line Interfaces (CLIs)</strong>: <code class="language-javascript">readline</code> is great for creating interactive command-line applications. You can ask questions, get user input, and respond accordingly.</p>
+</li>
+<li>
+<p><strong>Read large files line by line</strong>: If you have a large text file that you want to process one line at a time (for example, to save memory), you can use <code class="language-javascript">readline</code>. This is much more efficient than reading the entire file into memory.</p>
+</li>
+<li>
+<p><strong>Build text-based games</strong>: You can use <code class="language-javascript">readline</code> to create interactive, text-based games. As a simple starting point, you can create a simple quiz game that asks questions and waits for user responses.</p>
+</li>
+<li>
+<p><strong>Prompt for passwords</strong>: You can use <code class="language-javascript">readline</code> to prompt users for passwords and other sensitive information. You can even configure it to hide the input as the user types.</p>
+</li>
+<li>
+<p><strong>Create a REPL</strong>: You can use <code class="language-javascript">readline</code> to create a Read-Eval-Print Loop (REPL), which is a simple and interactive programming environment.</p>
+</li>
+</ol>
+<p>To see the <code class="language-javascript">readline</code> module in action, let's create a simple game of rock-paper-scissors:</p>
+<pre><code class="language-javascript">const readline = require('readline');
+
+const rl = readline.createInterface(process.stdin, process.stdout);
+
+const choices = ['rock', 'paper', 'scissors'];
+let computerChoice = choices[Math.floor(Math.random() * choices.length)]; // generate random number
+
+rl.question('Choose rock, paper, or scissors: ', (playerChoice) =&gt; {
+  playerChoice = playerChoice.toLowerCase(); // handle different cases
+  
+  // handle errors if the user types an unexpected value
+  if (!choices.includes(playerChoice)) {
+    console.log('Invalid choice. Please choose rock, paper, or scissors.');
+    rl.close();
+    return;
+  }
+
+  console.log('Player choice:', playerChoice);
+  console.log('Computer choice:', computerChoice);
+
+  if (playerChoice === computerChoice) {
+    console.log('It\'s a tie!');
+  } else if (
+    (playerChoice === 'rock' &amp;&amp; computerChoice === 'scissors') ||
+    (playerChoice === 'paper' &amp;&amp; computerChoice === 'rock') ||
+    (playerChoice === 'scissors' &amp;&amp; computerChoice === 'paper')
+  ) {
+    console.log('Player wins!');
+  } else {
+    console.log('Computer wins!');
+  }
+
+  rl.close(); // close the interface
+});
+</code></pre>
+<p>In this game, the program asks the player to choose one from rock, paper, or scissors. The computer also makes a random choice. The game then compares the player's choice with the computer's choice to determine the winner by following the standard rules of rock-paper-scissors:</p>
+<ul>
+<li>Rock crushes scissors,</li>
+<li>Scissors cuts paper,</li>
+<li>And paper covers rock.</li>
+</ul>
+<p>If the player and the computer make the same choice, then it's a tie.</p>
+<h5 id="conclusion">Conclusion</h5>
+<p>In this topic, you looked at the <code class="language-javascript">readline</code> module in Node.js. It is an effective utility for managing user input and output in console-based applications. You now know how to create an interface to interact with the user and listen to different events that the <code class="language-javascript">readline</code> module has. You also looked at some of the use cases for the <code class="language-javascript">readline</code> module. Now, it's time to practice what you've learned.</p>
+</div>

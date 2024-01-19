@@ -1,0 +1,18 @@
+type: choice
+is_multiple_choice: true
+options:
+  - text: An array containing different parts of the URL
+  - text: A string representation of different parts of the URL
+  - text: An object containing different components of the URL
+  - text: A boolean value that indicates if the URL value is valid or not
+files:
+  - name: main.js
+    visible: true
+    text: |+
+      // You can experiment here, it won’t be checked
+    
+    learner_created: false
+feedback_link: https://hyperskill.org/learn/step/28916#comment
+status: Solved
+record: -1
+local_check: false

@@ -1,0 +1,34 @@
+type: table
+files:
+  - name: main.js
+    visible: true
+    text: |+
+      // You can experiment here, it won’t be checked
+    
+    learner_created: false
+feedback_link: https://hyperskill.org/learn/step/36206#comment
+status: Solved
+record: -1
+rows:
+  - Network Operations
+  - Size Limitations
+  - Encoding and Decoding
+  - Files Input/Output
+  - Binary Data Manipulation
+  - Memory Usage
+columns:
+  - Pitfalls
+  - Use Cases
+selected:
+  - - false
+    - false
+  - - false
+    - false
+  - - false
+    - false
+  - - false
+    - false
+  - - false
+    - false
+  - - false
+    - false

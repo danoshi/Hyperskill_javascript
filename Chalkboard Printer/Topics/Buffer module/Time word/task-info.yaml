@@ -1,0 +1,18 @@
+type: code
+files:
+  - name: main.js
+    visible: true
+    text: |-
+      const { Buffer } = require('buffer');
+      
+      const buffer = Buffer.alloc(/* your code */);
+      
+      console.log(buffer);
+    learner_created: false
+feedback_link: https://hyperskill.org/learn/step/30661#comment
+status: Solved
+feedback:
+  message: <html>Correct solution</html>
+  time: "Fri, 19 Jan 2024 22:52:36 UTC"
+record: -1
+submission_language: javascript

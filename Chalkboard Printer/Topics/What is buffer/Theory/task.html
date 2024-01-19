@@ -1,0 +1,49 @@
+<h2>What is buffer?</h2>
+<div class="step-text">
+<p>JavaScript is a great language for managing Unicode-encoded strings, but it doesn't work well with binary data. That's why we need buffer. <code class="language-javascript">Buffer</code> is a data type used to work with binary data directly. They are particularly useful when you need to read, write, or manipulate binary data, such as when working with file I/O, network communication, or when dealing with binary data formats like images or audio files.</p>
+<h5 id="creating-buffers">Creating buffers</h5>
+<p>How can we use a buffer, and what does it look like? Actually, it is easy to create; let's dive into it.</p>
+<pre><code class="language-javascript">const buffer = Buffer.alloc(4, 1)
+
+console.log(buffer); // &lt;Buffer 01 01 01 01&gt;</code></pre>
+<p>The first method is <code class="language-javascript">alloc()</code>. It creates a buffer and allocates a size to it. This method is advisable when we need to generate a buffer with a determined size and initialize its values.The first argument of method is required as it determines the size of the buffer. The second argument is optional; if a value is specified, it is used to populate the buffer; otherwise, the buffer is filled with zeros. The last one is also optional. When the buffer values consist of strings, this parameter defines the encoding, with the default encoding being UTF-8."</p>
+<pre><code class="language-javascript">const buffer1 = Buffer.from([0, 10, 20, 30]);
+
+console.log(buffer1); // // &lt;Buffer 00 0a 14 1e&gt;</code></pre>
+<p>Another method is <code class="language-javascript">from()</code>. As you can see, it accepts an array as an argument, and it can also accept a string or buffer itself. When you want to create a buffer from existing data, you should use <code class="language-javascript">from()</code>.</p>
+<p></p><div class="alert alert-primary"> You may be surprised, why we see &lt;Buffer 00 0a 14 1e&gt; instead of just &lt;Buffer 0 10 20 30&gt;. That's because Node.js converts numbers to the hexadecimal number system. </div>
+<h5 id="buffer-methods">Buffer methods</h5>
+<p>Buffer has several methods and properties for managing and manipulating binary data. Here are some common methods and operations associated with buffers in Node.js:</p>
+<pre><code class="language-javascript">let buffer = Buffer.from('abc');
+let bufferToString = buffer.toString();
+
+console.log(buffer);  // &lt;Buffer 61 62 63&gt;
+console.log(bufferToString);  // abc</code></pre>
+<p>The method <code class="language-javascript">toString()</code> is used to convert a buffer to a string. It actually has three optional arguments. The first one is encoding, which is 'utf8' by default. The second argument is the starting point, and the third one is the ending point.</p>
+<pre><code class="language-javascript">let buffer = Buffer.from('Maksim');
+let slicedBuffer = buffer.slice(3,6);
+
+console.log(slicedBuffer.toString()); // sim</code></pre>
+<p>The <code class="language-javascript">slice()</code> method works the same way as <code class="language-javascript">slice()</code> with arrays (as I suppose you've already mentioned many common buffer operations with arrays). It returns a sliced buffer, where the first parameter signifies the starting point and the second parameter indicates the ending point.</p>
+<pre><code class="language-javascript">let buffer = Buffer.from([1,2,3,44,55]);
+
+console.log(buffer.length); // 5</code></pre>
+<p>As you can see, this method returns the length of a buffer.</p>
+<p>In general, the buffer in Node.js offers a wide range of methods. Some frequently used methods include <code class="language-javascript">write()</code>, <code class="language-javascript">readUInt8()</code>, <code class="language-javascript">copy()</code>, <code class="language-javascript">fill()</code>, and <code class="language-javascript">toJSON()</code>. You can find a comprehensive list of all the available methods in the Node.js documentation on <a href="https://nodejs.org/api/buffer.html" rel="noopener noreferrer nofollow" target="_blank">buffer</a>.</p>
+<h5 id="use-cases-and-pitfalls-of-buffers">Use cases and pitfalls of buffers</h5>
+<p>We understand that buffers are a crucial feature for working with binary data. In which cases can we use them?</p>
+<ul>
+<li>Files Input/Output. Of course, buffers are often used for reading and writing binary data from files.</li>
+<li>Network Operations. Buffers are essential for sending and receiving binary data over network sockets, such as in HTTP requests and responses.</li>
+<li>Binary Data Manipulation. Also buffers provide a way to work with binary data directly, enabling tasks like encoding and decoding data, hashing, encryption, and compression.</li>
+</ul>
+<p>All things in the world have some cons, and buffers are no exception.</p>
+<ul>
+<li>Size Limitations. The limitation on buffer size refers to the initial size defined during allocation. While buffers can be adjusted in size dynamically, this process can incur significant costs in both memory usage and performance.</li>
+<li>Memory Usage. Buffers can consume a significant amount of memory, especially when working with large files or network streams.</li>
+<li>Encoding and Decoding. Using the wrong encoding can lead to data corruption.</li>
+</ul>
+<p> </p>
+<h5 id="conclusion">Conclusion</h5>
+<p>Buffers in Node.js serve as a fundamental tool for efficiently handling binary data. They are especially valuable when dealing with tasks like file I/O, network communication, and binary data formats such as images and audio files. Additionally, buffers come with a range of methods for managing and manipulating binary data. However, it's important to be mindful of their limitations and encoding considerations to use them effectively in various applications involving binary data processing.</p>
+</div>

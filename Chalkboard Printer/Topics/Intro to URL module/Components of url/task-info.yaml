@@ -1,0 +1,18 @@
+type: choice
+is_multiple_choice: true
+options:
+  - text: <code>url.resolve()</code>
+  - text: <code>url.format()</code>
+  - text: <code>url.constructor()</code>
+  - text: <code>url.parse()</code>
+files:
+  - name: main.js
+    visible: true
+    text: |+
+      // You can experiment here, it won’t be checked
+    
+    learner_created: false
+feedback_link: https://hyperskill.org/learn/step/28923#comment
+status: Solved
+record: -1
+local_check: false

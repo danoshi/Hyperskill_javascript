@@ -1,0 +1,21 @@
+type: choice
+is_multiple_choice: false
+options:
+  - text: By using the <code>url.resolve()</code> function with the <code>hostname</code>
+      parameter
+  - text: By using the <code>url.parse()</code> function with the <code>host</code>
+      option
+  - text: By using the <code>url.hostname</code> property
+  - text: By using the <code>url.format()</code> function with the <code>hostname</code>
+      parameter
+files:
+  - name: main.js
+    visible: true
+    text: |+
+      // You can experiment here, it won’t be checked
+    
+    learner_created: false
+feedback_link: https://hyperskill.org/learn/step/28917#comment
+status: Solved
+record: -1
+local_check: false

@@ -1,0 +1,59 @@
+<h2>Buffer module</h2>
+<div class="step-text">
+<p></p><p>Most of the developers had to work with raw binary data at least once. This is especially ordinary when we talk about Node.js because we can face raw binary data when we use a stream, file system, or HTTP module. In this topic, you'll learn how buffers might help us with that.</p>
+<h5 id="what-is-a-buffer">What is a buffer?</h5>
+<p>A fairly general definition is that a <strong>buffer</strong> is a fixed-length memory container. In the context of Node.js, it's more accurate to say that buffers are used to represent a fixed-length sequence of bytes. Moreover, it is important to note that the issue of fixed length is one of the key ones. It is worth choosing the right buffer size for your purposes to avoid a buffer overflow error.</p>
+<p>Let's look at the following code snippet:</p>
+<pre><code class="language-javascript">const { Buffer } = require("node:buffer");
+
+const buffer = Buffer.alloc(10);
+
+console.log(buffer); // &lt;Buffer 00 00 00 00 00 00 00 00 00 00&gt;
+console.log(typeof buffer); // object</code></pre>
+<p>The first line is optional because the <code class="language-javascript">Buffer</code> object is available in the global scope, but it's still a good idea to explicitly import it. Next, we use the <code class="language-javascript">alloc</code> method, which allows us to allocate a specified number of bytes to a buffer named <code class="language-javascript">buffer</code> in the code snippet. In our example, we have allocated a buffer of 10 bytes, which will be filled with zeros.</p>
+<p>In the penultimate line, we output our buffer object to the console, and the result of the output is indicated on the right. As you can see, we can immediately recognize the buffer, because it is clearly stated in the console what kind of object it is. The last line is to make sure that buffer is an object and not something else.</p>
+<p>Well, at the moment our buffer has a size of 10 bytes, and it is filled with zeros. But why do we see 10 pairs of zeros in the output and not just 10 zeros? As you know, one byte is eight bits. One hexadecimal digit is represented by 4 bits, and two hexadecimal digits are represented by 8 bits or one byte. That is why we saw two pairs of zeros, here each pair of numbers is a two-digit hexadecimal number.</p>
+<h5 id="alloc-method">Alloc method</h5>
+<p>We have seen the simplest example of applying the <code class="language-javascript">alloc</code> method. In a more general case, this method takes three arguments: the size of the buffer in bytes, the value with which the new buffer will be filled, and the encoding.</p>
+<p>Let's consider the following case:</p>
+<pre><code class="language-javascript">const { Buffer } = require('node:buffer');
+
+const buffer = Buffer.alloc(10, "hello", "utf-8");
+
+console.log(buffer); // &lt;Buffer 68 65 6c 6c 6f 68 65 6c 6c 6f&gt;
+console.log(buffer.toString()); // hellohello</code></pre>
+<p>In this example, we also allocated a buffer of 10 bytes, but we specified the string "hello" as filling, and the encoding was utf-8.</p>
+<p></p><div class="alert alert-primary">In most methods, the encoding parameter is optional, and its default value is "utf-8".</div>
+<p>Also, you might've noticed a new method in the example above. The <code class="language-javascript">toString</code> method allows you to decode the buffer and present it as a regular string. But why the decoded string isn't "hello", but "hellohello"? Well, in utf-8 encoding, each character takes 8 bits, i.e. one byte. It turns out that if a word consists of 5 letters, then 5 bytes are needed to encode it. We allocated 10 bytes for the buffer, that is, two words "hello" can fit in this buffer, as we did in the example.</p>
+<p>We can also see that a buffer with ten two-digit numbers is output to the console, now they are not zero. Furthermore, we can open the utf-8 encoding table and verify that, for example, the first number that is represented by the hexadecimal number 68 encodes the character "h".</p>
+<p style="text-align: center;"><picture><source media="(max-width: 480px)" srcset="https://ucarecdn.com/40a9d2cf-aad8-4144-98b6-b00f19ac2e66/-/stretch/off/-/resize/480x/-/format/webp/ 1x,https://ucarecdn.com/40a9d2cf-aad8-4144-98b6-b00f19ac2e66/-/stretch/off/-/resize/960x/-/format/webp/ 2x,https://ucarecdn.com/40a9d2cf-aad8-4144-98b6-b00f19ac2e66/-/stretch/off/-/resize/1440x/-/format/webp/ 3x" type="image/webp"/><source media="(max-width: 800px)" srcset="https://ucarecdn.com/40a9d2cf-aad8-4144-98b6-b00f19ac2e66/-/stretch/off/-/resize/800x/-/format/webp/ 1x,https://ucarecdn.com/40a9d2cf-aad8-4144-98b6-b00f19ac2e66/-/stretch/off/-/resize/1600x/-/format/webp/ 2x,https://ucarecdn.com/40a9d2cf-aad8-4144-98b6-b00f19ac2e66/-/stretch/off/-/resize/2400x/-/format/webp/ 3x" type="image/webp"/><source srcset="https://ucarecdn.com/40a9d2cf-aad8-4144-98b6-b00f19ac2e66/-/stretch/off/-/resize/1100x/-/format/webp/ 1x,https://ucarecdn.com/40a9d2cf-aad8-4144-98b6-b00f19ac2e66/-/stretch/off/-/resize/2200x/-/format/webp/ 2x,https://ucarecdn.com/40a9d2cf-aad8-4144-98b6-b00f19ac2e66/-/stretch/off/-/resize/3000x/-/format/webp/ 3x" type="image/webp"/><img alt="104	U+0068	68	h	Latin Small Letter H" height="195" name="image.png" src="https://ucarecdn.com/40a9d2cf-aad8-4144-98b6-b00f19ac2e66/" width="606"/></picture></p>
+<h5 id="other-methods">Other methods</h5>
+<p>If you aren't sure that an object is a buffer, you can easily check it. Let's take a look at the following code snippet:</p>
+<pre><code class="language-javascript">const { Buffer } = require('buffer');
+
+console.log(Buffer.isBuffer(Buffer.from([76, 80]))); // true
+
+console.log(Buffer.isBuffer(Buffer.alloc(20))); // true
+
+console.log(Buffer.isBuffer({})); // false</code></pre>
+<p>Everything is pretty simple here. If you actually created a buffer, then the <code class="language-javascript">isBuffer</code> method will return true, otherwise false.</p>
+<p>Here's another interesting example:</p>
+<pre><code class="language-javascript">const { Buffer } = require('node:buffer');
+
+const bufferHex = Buffer.from([0x68, 0x69]);
+const bufferDec = Buffer.from([104, 105]);
+
+console.log(bufferHex.toString()); // hi
+console.log(bufferDec.toString()); // hi</code></pre>
+<p>In the example above, we used the <code class="language-javascript">from</code> method, which allows you to create a buffer based on an array of numbers, and each number in the array will encode a specific character in utf-8 encoding. Please note that we can use hexadecimal and decimal systems to encode the word "hi", and these numbers will be different. The following piece of the encoding table shows that we can use the decimal numbers 104 and 105 to encode the word "hi", or the hexadecimal numbers 0x68 and 0x69 for the same purpose.</p>
+<p style="text-align: center;"><picture><source media="(max-width: 480px)" srcset="https://ucarecdn.com/2c390c98-3ee7-42f8-97b2-26f52c1a7b99/-/stretch/off/-/resize/480x/-/format/webp/ 1x,https://ucarecdn.com/2c390c98-3ee7-42f8-97b2-26f52c1a7b99/-/stretch/off/-/resize/960x/-/format/webp/ 2x,https://ucarecdn.com/2c390c98-3ee7-42f8-97b2-26f52c1a7b99/-/stretch/off/-/resize/1440x/-/format/webp/ 3x" type="image/webp"/><source media="(max-width: 800px)" srcset="https://ucarecdn.com/2c390c98-3ee7-42f8-97b2-26f52c1a7b99/-/stretch/off/-/resize/800x/-/format/webp/ 1x,https://ucarecdn.com/2c390c98-3ee7-42f8-97b2-26f52c1a7b99/-/stretch/off/-/resize/1600x/-/format/webp/ 2x,https://ucarecdn.com/2c390c98-3ee7-42f8-97b2-26f52c1a7b99/-/stretch/off/-/resize/2400x/-/format/webp/ 3x" type="image/webp"/><source srcset="https://ucarecdn.com/2c390c98-3ee7-42f8-97b2-26f52c1a7b99/-/stretch/off/-/resize/1100x/-/format/webp/ 1x,https://ucarecdn.com/2c390c98-3ee7-42f8-97b2-26f52c1a7b99/-/stretch/off/-/resize/2200x/-/format/webp/ 2x,https://ucarecdn.com/2c390c98-3ee7-42f8-97b2-26f52c1a7b99/-/stretch/off/-/resize/3000x/-/format/webp/ 3x" type="image/webp"/><img alt="104	U+0068	68	h	Latin Small Letter H" height="117" name="image.png" src="https://ucarecdn.com/2c390c98-3ee7-42f8-97b2-26f52c1a7b99/" width="614"/></picture></p>
+<p></p><div class="alert alert-primary">In order to tell the system that you are working with a hexadecimal number, you need to specify 0x in front of the number without a space.</div>
+<p>If you forget to indicate the fact that your number is in hexadecimal, then this method will recognize the number as decimal, and you will encode the word incorrectly. The following example shows what happens in that case:</p>
+<pre><code class="language-javascript">const { Buffer } = require('node:buffer');
+
+const bufferDec = Buffer.from([68, 69]);
+
+console.log(bufferDec.toString()); // DE</code></pre>
+<h5 id="conclusion">Conclusion</h5>
+<p>The concept of a buffer as a container of a fixed-length sequence of bytes is very important to Node.js. In order to work correctly with buffers, you need to remember the principles of working with hexadecimal numbers and encodings, especially with utf-8. It's worth noting that we've also covered how to create an array-based buffer and represent the buffer as an ordinary string.</p>
+</div>

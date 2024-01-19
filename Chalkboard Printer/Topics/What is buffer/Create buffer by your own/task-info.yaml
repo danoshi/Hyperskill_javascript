@@ -1,0 +1,16 @@
+type: code
+files:
+  - name: main.js
+    visible: true
+    text: |-
+      let buffer = // Write your code here
+      
+      console.log(buffer);
+    learner_created: false
+feedback_link: https://hyperskill.org/learn/step/36207#comment
+status: Solved
+feedback:
+  message: <html>Correct solution</html>
+  time: "Fri, 19 Jan 2024 19:47:01 UTC"
+record: -1
+submission_language: javascript

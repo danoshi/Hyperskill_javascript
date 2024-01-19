@@ -1,0 +1,23 @@
+type: matching
+captions:
+  - Event listener
+  - Emitter
+  - ""
+options:
+  - A special object that fires only the mouse click event on a button in the browser.
+  - An object that can listen to an event and invoke a callback when that event is emitted.
+  - An object that signals that a specific action has taken place.
+files:
+  - name: main.js
+    visible: true
+    text: |+
+      // You can experiment here, it won’t be checked
+    
+    learner_created: false
+feedback_link: https://hyperskill.org/learn/step/23941#comment
+status: Solved
+record: -1
+ordering:
+  - 0
+  - 1
+  - 2

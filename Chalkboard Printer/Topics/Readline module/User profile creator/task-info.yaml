@@ -1,0 +1,16 @@
+type: code
+files:
+  - name: main.js
+    visible: true
+    text: |-
+      const readline = require('readline');
+      
+      // Write your code here
+    learner_created: false
+feedback_link: https://hyperskill.org/learn/step/33214#comment
+status: Solved
+feedback:
+  message: <html>Correct solution</html>
+  time: "Fri, 19 Jan 2024 11:23:02 UTC"
+record: -1
+submission_language: javascript

@@ -1,0 +1,18 @@
+type: choice
+is_multiple_choice: false
+options:
+  - text: To render HTML templates
+  - text: To manage user input and output in console-based applications
+  - text: To handle HTTP requests
+  - text: 'To connect your program to databases '
+files:
+  - name: main.js
+    visible: true
+    text: |+
+      // You can experiment here, it won’t be checked
+    
+    learner_created: false
+feedback_link: https://hyperskill.org/learn/step/33204#comment
+status: Solved
+record: -1
+local_check: false

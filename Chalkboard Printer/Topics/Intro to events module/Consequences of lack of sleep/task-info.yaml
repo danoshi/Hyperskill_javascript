@@ -1,0 +1,24 @@
+type: code
+files:
+  - name: main.js
+    visible: true
+    text: |-
+      const EventEmitter = require('events'); //do not change this line!
+      
+      const emitter = new EventEmitter();
+      
+      emitter.on('greeting', (name) => {
+        console.log(`Good morning, ${}!`); // this line is corrupted
+      });
+      
+      const userName = 'Boris';
+      
+      emitter.emit('greet", ); // this line is corrupted
+    learner_created: false
+feedback_link: https://hyperskill.org/learn/step/23946#comment
+status: Solved
+feedback:
+  message: <html>Correct solution</html>
+  time: "Fri, 19 Jan 2024 12:29:17 UTC"
+record: -1
+submission_language: javascript

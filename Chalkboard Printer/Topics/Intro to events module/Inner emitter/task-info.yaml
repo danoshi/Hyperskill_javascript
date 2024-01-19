@@ -1,0 +1,26 @@
+type: code
+files:
+  - name: main.js
+    visible: true
+    text: |-
+      const EventEmitter = require('events'); //do not change this line!
+      
+      const emitter = new EventEmitter();
+      
+      emitter.on('main', () => {
+          console.log('It is main event!')
+      })
+      
+      emitter.on('initial', (eventName) => {
+        /* your code */
+      });
+      
+      emitter.emit('initial', /* your code */);
+    learner_created: false
+feedback_link: https://hyperskill.org/learn/step/23948#comment
+status: Solved
+feedback:
+  message: <html>Correct solution</html>
+  time: "Fri, 19 Jan 2024 12:26:17 UTC"
+record: -1
+submission_language: javascript

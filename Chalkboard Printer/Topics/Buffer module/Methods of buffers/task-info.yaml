@@ -1,0 +1,26 @@
+type: matching
+captions:
+  - <code>buffer.from(  )</code>
+  - <code>buffer.alloc(  )</code>
+  - <code>buffer.toString(  )</code>
+  - <code>buffer.fromArray(  )</code>
+options:
+  - It's used for decoding buffer to a string.
+  - This method allows ud to allocate new buffer from array of integers.
+  - This method doesn't exist.
+  - A method which allocates a buffer of fixed-length size.
+files:
+  - name: main.js
+    visible: true
+    text: |+
+      // You can experiment here, it won’t be checked
+    
+    learner_created: false
+feedback_link: https://hyperskill.org/learn/step/30656#comment
+status: Solved
+record: -1
+ordering:
+  - 0
+  - 1
+  - 2
+  - 3

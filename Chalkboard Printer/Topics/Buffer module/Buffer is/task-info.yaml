@@ -1,0 +1,18 @@
+type: choice
+is_multiple_choice: true
+options:
+  - text: A buffer is one of the types of streams or HTTP requests.
+  - text: A buffer is a container of a raw sequence of bytes of a fixed length.
+  - text: "A buffer is a regular array, which is no different from an array in JavaScript."
+  - text: A buffer is a special object.
+files:
+  - name: main.js
+    visible: true
+    text: |+
+      // You can experiment here, it won’t be checked
+    
+    learner_created: false
+feedback_link: https://hyperskill.org/learn/step/30654#comment
+status: Solved
+record: -1
+local_check: false

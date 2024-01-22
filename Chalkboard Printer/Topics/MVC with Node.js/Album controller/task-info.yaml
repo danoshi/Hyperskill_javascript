@@ -1,0 +1,29 @@
+type: code
+files:
+  - name: main.js
+    visible: true
+    text: |-
+      // do not change the code below
+      class Album {
+        constructor(title, artist, releaseYear) {
+          this.title = title;
+          this.artist = artist;
+          this.releaseYear = releaseYear;
+        }
+      
+        playSong(songName) {
+          console.log(`Now playing "${songName}" by ${this.artist} from ${this.title} ${this.releaseYear} album`);
+        }
+      }
+      
+      // albumController.js
+      // Album model imported
+      // write your code below
+    learner_created: false
+feedback_link: https://hyperskill.org/learn/step/35656#comment
+status: Solved
+feedback:
+  message: <html>Correct solution</html>
+  time: "Mon, 22 Jan 2024 19:06:31 UTC"
+record: -1
+submission_language: javascript

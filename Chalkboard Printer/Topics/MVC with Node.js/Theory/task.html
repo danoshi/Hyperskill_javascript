@@ -1,0 +1,100 @@
+<h2>MVC with Node.js</h2>
+<div class="step-text">
+<p>The MVC (Model-View-Controller) pattern is a software architectural pattern commonly used in web development to separate the concerns of an application into three distinct components: the model, the view, and the controller. Node.js is a versatile runtime environment that you can use to implement the MVC pattern. In this topic, you will learn about each component of MVC and see a small example that implements the MVC pattern.</p>
+<p>Let's start by briefly checking each component in the context of Node.js.</p>
+<h5 id="model">Model</h5>
+<p>The model represents the data and business logic of the application. It encapsulates the application's data structure, access methods, and validation rules. In Node.js, you can define your models using frameworks like Mongoose (for MongoDB) or Sequelize (for SQL databases). These frameworks provide an abstraction layer to interact with the database and define models with properties, relationships, and methods.</p>
+<p>Here's a model example with plain JavaScript:</p>
+<pre><code class="language-javascript">const books = [];
+
+class Book {
+  constructor(title, author) {
+    this.title = title;
+    this.author = author;
+  }
+
+  static getAllBooks() {
+    return books;
+  }
+
+  static addBook(book) {
+    books.push(book);
+  }
+}
+
+module.exports = Book;</code></pre>
+<p>In this example, we define a <code class="language-javascript">Book</code> class with a constructor that takes in <code class="language-javascript">title</code> and <code class="language-javascript">author</code> as parameters. The constructor assigns these values to the respective properties of the <code class="language-javascript">Book</code> instance. Also, the <code class="language-javascript">Book</code>class provides static methods to get all books and add a new book. Finally, we export the <code class="language-javascript">Book</code> model so that it is usable in a controller.</p>
+<p></p><div class="alert alert-primary">The reason for creating a Book model is to encapsulate the data and behavior related to books in a structured and organized manner. The Book model represents the concept of a book within the application and provides a blueprint for creating book objects. So, you can use this model to create new Book objects, validate and manipulate Book data, and reuse the model in different parts of your code, such as the controller.</div>
+<h5 id="view">View</h5>
+<p>The view is responsible for rendering the user interface and presenting data. In Node.js, you can use templating engines like Handlebars, EJS, or Pug, which are available as Node.js packages, to generate dynamic HTML pages. Views are typically separate files that contain HTML markup with placeholders for dynamic data. The controller, which you will learn about in the next section, passes data to the view, and the view will render it accordingly. For now, think of <strong>controller</strong> as the bridge between the data(model) and the view.</p>
+<p>Continuing from the previous example, here's the example for view:</p>
+<pre><code class="language-html">&lt;!-- Book View --&gt;
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+  &lt;title&gt;Book List&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;h1&gt;Book List&lt;/h1&gt;
+  &lt;div id="bookList"&gt;
+    &lt;p&gt;No books available.&lt;/p&gt;
+  &lt;/div&gt;
+  &lt;form id="addBookForm"&gt;
+    &lt;input type="text" id="titleInput" placeholder="Book Title" required&gt;
+    &lt;input type="text" id="authorInput" placeholder="Author" required&gt;
+    &lt;button type="submit"&gt;Add Book&lt;/button&gt;
+  &lt;/form&gt;
+
+  &lt;script src="controller.js"&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<p>The view is an HTML file (<code class="language-javascript">book.html</code>) with placeholders for the book list and the form inputs. The snippet above contains <code class="language-javascript">id</code> attributes associated with relevant elements to allow us to select them in JavaScript. </p>
+<h5 id="controller">Controller</h5>
+<p>The controller acts as an intermediary between the model and the view. It receives user input from the view, interacts with the model to retrieve or modify data, and updates the view accordingly. In Node.js, you can define your controllers as separate modules or classes that handle specific routes or actions. The controller is responsible for processing incoming requests, validating data, and coordinating the flow of information between the model and the view.</p>
+<p>Take a look at the following controller example for the <code class="language-javascript">Book</code> model:</p>
+<pre><code class="language-javascript">const Book = require('./book');
+
+const bookListContainer = document.getElementById('bookList');
+const addBookForm = document.getElementById('addBookForm');
+const titleInput = document.getElementById('titleInput');
+const authorInput = document.getElementById('authorInput');
+
+function renderBookList() {
+  const books = Book.getAllBooks();
+  bookListContainer.innerHTML = '';
+
+  if (books.length === 0) {
+    bookListContainer.innerHTML = '&lt;p&gt;No books available.&lt;/p&gt;';
+  } else {
+    const ul = document.createElement('ul');
+    books.forEach(book =&gt; {
+      const li = document.createElement('li');
+      li.textContent = `${book.title} by ${book.author}`;
+      ul.appendChild(li);
+    });
+    bookListContainer.appendChild(ul);
+  }
+}
+
+addBookForm.addEventListener('submit', event =&gt; {
+  event.preventDefault();
+  const title = titleInput.value;
+  const author = authorInput.value;
+  const book = new Book(title, author);
+  Book.addBook(book);
+  renderBookList();
+  titleInput.value = '';
+  authorInput.value = '';
+});
+
+renderBookList();
+</code></pre>
+<p>The controller (<code class="language-javascript">controller.js</code>) renders the book list. It handles the function of adding a new book when the form is submitted and updating the view accordingly. It also listens for the <code class="language-javascript">submit</code> event on the form and prevents the default form submission behavior. Finally, it creates a new <code class="language-javascript">Book</code> instance, adds it to the model, and re-renders the book list.</p>
+<p></p><div class="alert alert-warning">For the sake of simplicity, the above example is more suited for a <strong>client-side</strong> application rather than a typical <strong>server-side </strong>Node.js application. In a <strong>server-side</strong> Node.js application, like an API, the controller would be responsible for sending and receiving data, validating and authenticating users, etc.</div>
+<p>To run this application, you can open the <code class="language-javascript">book.html</code> file in a web browser. The book list will be displayed and you can use the form to add new books.</p>
+<p><picture><img alt="Output of MVC example program" height="608" name="mvceg.gif" src="https://ucarecdn.com/52885775-57f8-48dd-9b36-d293110d0fdf/" width="1080"/></picture></p>
+<p></p><div class="alert alert-primary">To implement the MVC pattern in Node.js in more practical applications, you would typically set up your routes to map to specific controller actions. When a request is received, the corresponding controller action is invoked, which interacts with the model and prepares the data to be passed to the view. The view then renders the data and sends the response back to the client.</div>
+<h5 id="conclusion">Conclusion</h5>
+<p>Overall, the MVC pattern helps organize code, separate concerns, and promote code reusability and maintainability in Node.js applications. You've looked at each component that forms the MVC pattern: The model that contains the data of the application, the view that displays the data, and the controller that acts as a bridge between the model and view. To understand how these three components are related, you've looked at a Book management example using the MVC pattern.</p>
+</div>

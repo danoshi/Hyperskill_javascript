@@ -1,0 +1,18 @@
+type: choice
+is_multiple_choice: false
+options:
+  - text: <code>countListeners()</code>
+  - text: <code>getListeners()</code>
+  - text: There is no built-in method to count event listeners.
+  - text: <code>listenerCount()</code>
+files:
+  - name: main.js
+    visible: true
+    text: |+
+      // You can experiment here, it won’t be checked
+    
+    learner_created: false
+feedback_link: https://hyperskill.org/learn/step/33812#comment
+status: Solved
+record: -1
+local_check: false

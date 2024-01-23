@@ -1,0 +1,19 @@
+type: choice
+is_multiple_choice: false
+options:
+  - text: <code>path</code>
+  - text: <code>events</code>
+  - text: <code>http</code>
+  - text: <code>fs</code>
+files:
+  - name: main.js
+    visible: true
+    text: |+
+      // You can experiment here, it won’t be checked
+    
+    learner_created: false
+feedback_link: https://hyperskill.org/learn/step/33807#comment
+status: Solved
+record: -1
+custom_name: Which module?
+local_check: false

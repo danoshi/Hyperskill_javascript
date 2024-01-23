@@ -1,0 +1,104 @@
+<h2>Memory leak</h2>
+<div class="step-text">
+<p>When you write code, it can sometimes lead to adverse consequences. For example, in a Node.js application, a function that handles incoming requests might unintentionally fail to release the memory occupied by processed data. Consequently, memory usage steadily increases with each request, leading to a memory leak. Understanding and addressing memory leaks in Node.js is crucial for maintaining application performance and stability. In this topic, you will learn how to detect and fix a memory leak.</p>
+<h5 id="the-definition-of-a-memory-leak-and-why-its-important-to-fix-it">The definition of a memory leak and why it's important to fix it</h5>
+<p>Memory leaks are a type of resource issue that occurs when a program fails to manage memory correctly, retaining memory it no longer needs. In object-oriented programming, this can happen when an object remains in memory but is inaccessible to the running code.</p>
+<p>Addressing memory leaks is crucial for several reasons:</p>
+<p>Optimal Performance: As memory usage increases, the application might slow down, become unresponsive, or crash. Fixing memory leaks ensures that your application runs smoothly and efficiently.</p>
+<p>Stability and Reliability: Memory leaks can destabilize an application, leading to unexpected errors, crashes, or system failures. Addressing memory leaks enhances the stability and reliability of your application, providing a better user experience.</p>
+<p>Scalability: Memory leaks significantly impact the scalability of an application. As unchecked memory usage grows, it can limit the number of concurrent users or requests your application can handle. Fixing memory leaks ensures that your application scales effectively to meet increasing demands.</p>
+<h5 id="common-causes-of-memory-leaks">Common causes of memory leaks</h5>
+<p>Memory leaks in Node.js often occur due to imperfect memory resource management. Here are some common causes:</p>
+<p>Global Variables. Global variables are directly accessible from the root node and persist in memory for the entire lifespan of your application. The garbage collector does not clean them up, leading to potential memory leaks.</p>
+<pre><code class="language-javascript">let globalData = [];
+
+function addToGlobal() {
+  const data = 'some data';
+  globalData.push(data);
+}
+
+addToGlobal();</code></pre>
+<p>The <code class="language-javascript">globalData</code> array is declared as a global variable. The <code class="language-javascript">addToGlobal</code> function adds data to the <code class="language-javascript">globalData</code> array. However, because the array is a global variable, it persists in memory even after the function execution completes. Over time, this can lead to a memory leak as the <code class="language-javascript">globalData</code> array continues to grow.</p>
+<p>Closures. A closure is a function created within another function that retains access to its parent (outer) function's scope. When you return and execute the closure, the data it retains in memory persists and remains accessible within the program, which can potentially cause a memory leak.</p>
+<pre><code class="language-javascript">function createClosure() {
+  let counter = 0;
+  
+  setInterval(function() {
+    console.log(counter++);
+  }, 1000);
+}
+
+createClosure();</code></pre>
+<p>Here, <code class="language-javascript">createClosure</code> creates a closure by defining an anonymous function inside <code class="language-javascript">setInterval</code>. The anonymous function references the <code class="language-javascript">counter</code> variable. Because <code class="language-javascript">setInterval</code> repeatedly executes the anonymous function, the <code class="language-javascript">counter</code> variable will never be garbage collected, which leads to a memory leak.</p>
+<p>Outdated Timers or Callbacks. Node.js provides timers like <code class="language-javascript">setTimeout()</code> and <code class="language-javascript">setInterval()</code>. The former executes a callback function after a specified delay, and the latter repeatedly executes a callback function with a consistent delay between executions. Using these timers, especially in conjunction with closures, can potentially result in memory leaks.</p>
+<pre><code class="language-javascript">let data = [];
+
+function addToData() {
+  const newData = 'some data';
+  data.push(newData);
+}
+
+setInterval(addToData, 1000);</code></pre>
+<p>The <code class="language-javascript">addToData</code> function is called repeatedly every 1 second using <code class="language-javascript">setInterval</code>. However, if you do not clear the <code class="language-javascript">data</code> array or limit its size, it will continue to grow with each invocation of <code class="language-javascript">addToData</code>. This can lead to a memory leak as the array consumes more and more memory over time.</p>
+<p>Event Listeners. Neglecting to remove an event listener from an object can result in a memory leak. The listener retains a reference to the object, preventing proper memory cleanup.</p>
+<pre><code class="language-javascript">const EventEmitter = require('events');
+
+const emitter = new EventEmitter();
+
+function handleEvent() {
+  console.log('Event handled');
+}
+
+emitter.on('event', handleEvent);</code></pre>
+<p>The <code class="language-javascript">handleEvent</code> function is registered as an event listener for the <code class="language-javascript">event</code> event. If you do not remove the event listener using <code class="language-javascript">emitter.off</code> or <code class="language-javascript">emitter.removeListener</code> when it is no longer necessary, it will continue to hold a reference to the <code class="language-javascript">handleEvent</code> function and prevent it from being garbage collected. If you add a large number of event listeners and fail to remove them, this can lead to a memory leak.</p>
+<p>Middleware in Express.js. In Node.js, if you do not manage middleware properly in Express.js, it can lead to memory leaks. For instance, a memory leak can occur when you create a new function for every request.</p>
+<pre><code class="language-javascript">const express = require('express');
+const app = express();
+
+app.use((req, res, next) =&gt; {
+  // Some middleware logic
+  next();
+});</code></pre>
+<p>In this example, when adding middleware using <code class="language-javascript">app.use</code>, it's crucial to call <code class="language-javascript">next()</code> within the middleware to avoid memory leaks. Failing to do so can retain references to the request and response objects, hindering garbage collection. Always ensure that middleware functions appropriately pass control to the next middleware or route handler.</p>
+<h5 id="preventing-memory-leaks">Preventing memory leaks</h5>
+<p>Avoid Global Variables. Refrain from using global variables excessively, as they can persist in memory for a long time. Instead, opt for local variables within functions.</p>
+<pre><code class="language-javascript">function main() {
+    let localVariable = "This is a local variable";
+    console.log(localVariable);
+}
+
+main();</code></pre>
+<p>In this example, <code class="language-javascript">localVariable</code> is a local variable within the <code class="language-javascript">main</code> function. It is not global, and it will be automatically garbage collected when it goes out of scope, preventing potential memory leaks.</p>
+<p>Clearing Timers. As previously mentioned, mishandled timers can lead to memory leaks. To prevent this issue, ensure you clear timers when they are no longer necessary.</p>
+<pre><code class="language-javascript">let timerId = setTimeout(function() {
+    console.log("This will not run");
+}, 1000);
+
+clearTimeout(timerId);</code></pre>
+<p>In the code above, we start a timer that should execute a function after 1000 milliseconds. However, we immediately clear that timer using <code class="language-javascript">clearTimeout(timerId)</code>. This action prevents the timer from maintaining a reference to the callback function and causing a potential memory leak. When using <code class="language-javascript">setInterval()</code>, you can clear it using <code class="language-javascript">clearInterval()</code>.</p>
+<p>Remove Event Listeners. When you create event listeners, make sure to remove them when they are no longer needed. Failing to do so may keep objects in memory, hindering their removal by the garbage collector.</p>
+<pre><code class="language-javascript">import EventEmitter from 'events'
+
+const emitter = new EventEmitter();
+
+function handleEvent() {
+  console.log('Event handled');
+}
+
+emitter.on('myEvent', handleEvent);
+
+emitter.emit('myEvent');
+
+emitter.off('myEvent', handleEvent);
+</code></pre>
+<p>In this example, you add an event listener to an event emitter for the <code class="language-javascript">myEvent</code> event. When the event listener is no longer needed, you remove it using the <code class="language-javascript">off</code> method. This action prevents potential memory leaks by allowing the garbage collector to clean up the event handler function when it's no longer in use.</p>
+<h5 id="detecting-memory-leaks">Detecting memory leaks</h5>
+<p>Identifying memory leaks in Node.js can be accomplished through a variety of tools and approaches. The following techniques are commonly employed:</p>
+<p>Modern browsers have excellent tools that let you take heap snapshots of your Node.js application. For example, you can use Heap Snapshots in Google Chrome. By examining multiple snapshots, you can pinpoint objects that are not undergoing garbage collection, thereby identifying potential memory leaks. In the Memory section, you can take snapshots and compare them.</p>
+<p><picture><source media="(max-width: 480px)" srcset="https://ucarecdn.com/c3f67fe4-1d9a-453b-8fac-10cd3c449295/-/stretch/off/-/resize/480x/-/format/webp/ 1x,https://ucarecdn.com/c3f67fe4-1d9a-453b-8fac-10cd3c449295/-/stretch/off/-/resize/960x/-/format/webp/ 2x,https://ucarecdn.com/c3f67fe4-1d9a-453b-8fac-10cd3c449295/-/stretch/off/-/resize/1440x/-/format/webp/ 3x" type="image/webp"/><source media="(max-width: 800px)" srcset="https://ucarecdn.com/c3f67fe4-1d9a-453b-8fac-10cd3c449295/-/stretch/off/-/resize/800x/-/format/webp/ 1x,https://ucarecdn.com/c3f67fe4-1d9a-453b-8fac-10cd3c449295/-/stretch/off/-/resize/1600x/-/format/webp/ 2x,https://ucarecdn.com/c3f67fe4-1d9a-453b-8fac-10cd3c449295/-/stretch/off/-/resize/2400x/-/format/webp/ 3x" type="image/webp"/><source srcset="https://ucarecdn.com/c3f67fe4-1d9a-453b-8fac-10cd3c449295/-/stretch/off/-/resize/1100x/-/format/webp/ 1x,https://ucarecdn.com/c3f67fe4-1d9a-453b-8fac-10cd3c449295/-/stretch/off/-/resize/2200x/-/format/webp/ 2x,https://ucarecdn.com/c3f67fe4-1d9a-453b-8fac-10cd3c449295/-/stretch/off/-/resize/3000x/-/format/webp/ 3x" type="image/webp"/><img alt="In the Memory section of Google Chrome, you can take a screenshot." height="251" name="Screenshot 2023-11-20 at 15.29.49.jpg" src="https://ucarecdn.com/c3f67fe4-1d9a-453b-8fac-10cd3c449295/" width="800"/></picture></p>
+<p>Node.js includes a built-in profiler module designed for identifying memory leaks. When you launch your application with the <code class="language-javascript">--prof</code> flag, it generates a profiling file with the <code class="language-javascript">.log</code> extension. You can examine this file using tools like <code class="language-javascript">node-inspect</code> or <code class="language-javascript">clinic</code>.</p>
+<p><picture><source media="(max-width: 480px)" srcset="https://ucarecdn.com/6749dfd1-6070-4d1a-ab01-a1e39292776c/-/stretch/off/-/resize/480x/-/format/webp/ 1x,https://ucarecdn.com/6749dfd1-6070-4d1a-ab01-a1e39292776c/-/stretch/off/-/resize/960x/-/format/webp/ 2x,https://ucarecdn.com/6749dfd1-6070-4d1a-ab01-a1e39292776c/-/stretch/off/-/resize/1440x/-/format/webp/ 3x" type="image/webp"/><source media="(max-width: 800px)" srcset="https://ucarecdn.com/6749dfd1-6070-4d1a-ab01-a1e39292776c/-/stretch/off/-/resize/800x/-/format/webp/ 1x,https://ucarecdn.com/6749dfd1-6070-4d1a-ab01-a1e39292776c/-/stretch/off/-/resize/1600x/-/format/webp/ 2x,https://ucarecdn.com/6749dfd1-6070-4d1a-ab01-a1e39292776c/-/stretch/off/-/resize/2400x/-/format/webp/ 3x" type="image/webp"/><source srcset="https://ucarecdn.com/6749dfd1-6070-4d1a-ab01-a1e39292776c/-/stretch/off/-/resize/1100x/-/format/webp/ 1x,https://ucarecdn.com/6749dfd1-6070-4d1a-ab01-a1e39292776c/-/stretch/off/-/resize/2200x/-/format/webp/ 2x,https://ucarecdn.com/6749dfd1-6070-4d1a-ab01-a1e39292776c/-/stretch/off/-/resize/3000x/-/format/webp/ 3x" type="image/webp"/><img alt="command with --prof flag, generating .log file." height="131" name="Screenshot 2023-11-20 at 15.52.32.jpg" src="https://ucarecdn.com/6749dfd1-6070-4d1a-ab01-a1e39292776c/" width="800"/></picture></p>
+<p>You can utilize external libraries such as <code class="language-javascript">heapdump</code>, <code class="language-javascript">memwatch-next</code>, and <code class="language-javascript">leakage</code> to detect and monitor memory leaks in Node.js. These libraries offer straightforward methods to track memory usage and take snapshots.</p>
+<h5 id="conclusion">Conclusion</h5>
+<p>Understanding and addressing memory leaks in Node.js is crucial for maintaining the performance and stability of your applications. Memory leaks can lead to increased memory usage, slower response times, and even application crashes. By following best practices, such as avoiding global variables and removing unnecessary event listeners, you can prevent memory leaks from occurring. Additionally, using tools like heap snapshots and memory monitoring libraries can help you detect and resolve any memory leaks that do occur.</p>
+</div>

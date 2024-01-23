@@ -1,0 +1,18 @@
+type: code
+files:
+  - name: main.js
+    visible: true
+    text: |-
+      let timer = setTimeout(function() {
+          console.log("Clear this");
+      }, 1000);
+      
+      /* Write your code here */
+    learner_created: false
+feedback_link: https://hyperskill.org/learn/step/39162#comment
+status: Solved
+feedback:
+  message: <html>Correct solution</html>
+  time: "Tue, 23 Jan 2024 21:48:38 UTC"
+record: -1
+submission_language: javascript

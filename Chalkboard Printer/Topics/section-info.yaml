@@ -25,3 +25,5 @@ content:
   - What is buffer
   - Buffer module
   - MVC with Node.js
+  - Working with events
+  - Memory leak

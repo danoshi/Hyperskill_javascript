@@ -1,0 +1,25 @@
+type: code
+files:
+  - name: main.js
+    visible: true
+    highlight_level: NONE
+    text: |-
+      // do not change the below lines
+      const messageManager = new MessageManager();
+      
+      const messageSentListener = (message) => {
+        console.log(`Message sent: ${message}`);
+      };
+      
+      messageManager.on('messageSent', messageSentListener);
+      messageManager.sendMessage('Hello, world!');
+      
+      // write your code below
+    learner_created: false
+feedback_link: https://hyperskill.org/learn/step/33815#comment
+status: Solved
+feedback:
+  message: <html>Correct solution</html>
+  time: "Tue, 23 Jan 2024 21:39:34 UTC"
+record: -1
+submission_language: javascript

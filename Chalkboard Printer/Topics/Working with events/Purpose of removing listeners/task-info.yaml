@@ -1,0 +1,20 @@
+type: choice
+is_multiple_choice: true
+options:
+  - text: To enforce strict event handling rules
+  - text: To ensure that event emission occurs only once
+  - text: To avoid duplicate event handling
+  - text: To prevent unintended side effects
+  - text: To optimize event handling performance
+  - text: To prevent memory leaks and manage resources
+files:
+  - name: main.js
+    visible: true
+    text: |+
+      // You can experiment here, it won’t be checked
+    
+    learner_created: false
+feedback_link: https://hyperskill.org/learn/step/33813#comment
+status: Solved
+record: -1
+local_check: false

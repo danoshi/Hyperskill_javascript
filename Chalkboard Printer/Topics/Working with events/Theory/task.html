@@ -1,0 +1,239 @@
+<h2>Working with events</h2>
+<div class="step-text">
+<p>The <code class="language-javascript">events</code> module in Node.js is a core module that provides the ability to create, fire, and manage events. It is built around the <code class="language-javascript">EventEmitter</code> class, which is used to raise and handle custom events. In this topic, you will dive deeper into the <code class="language-javascript">events</code> module and take a look at more advanced uses of <code class="language-javascript">EventEmitter</code>.</p>
+<h5 id="create-a-message-manager">Create a Message Manager</h5>
+<p>Let's follow an example to better understand how you can use event emitters in Node.js.</p>
+<p>First, create a  <code class="language-javascript">MessageManager</code> class that extends <code class="language-javascript">EventEmitter</code>:</p>
+<pre><code class="language-javascript">const EventEmitter = require('events');
+
+class MessageManager extends EventEmitter {
+  constructor() {
+    super(); // access to the methods and properties of EventEmitter
+    this.messages = []; // a list of sent messages
+    this.receivedMessages = []; // a list of all sent messages
+  }
+};
+</code></pre>
+<p>The constructor includes a <code class="language-javascript">this.messages</code> property to simulate a message queue sent by users and <code class="language-javascript">this.receivedMessages</code> array keeps a record of all received messages. It also calls <code class="language-javascript">super()</code> to get access to the methods and properties of <code class="language-javascript">EventEmitter</code>.</p>
+<p>Now, add a <code class="language-javascript">sendMessage</code> method after the constructor:</p>
+<pre><code class="language-javascript">sendMessage(message) {
+  this.messages.push(message);
+  this.emit('messageSent', message);
+}</code></pre>
+<p> This method takes a message string and after adding it to the <code class="language-javascript">messages</code> array, it ends by emitting the same message with <code class="language-javascript">messageSent</code> event.</p>
+<p>Next, you need to be able to receive messages, so add a method called <code class="language-javascript">receiveMessage</code>:</p>
+<pre><code class="language-javascript">receiveMessage() {
+  const message = this.messages.shift(); // Get the first element
+  this.receivedMessages.push(message); // Store the received message
+  this.emit('messageReceived', message);
+}
+
+// You can also add a method to return all the stored messages
+
+getPreviousMessages() {
+    return this.receivedMessages;
+}</code></pre>
+<h5 id="listen-for-events">Listen for Events</h5>
+<p>First, you need to create an instance of the <code class="language-javascript">MessageManager</code> class:</p>
+<pre><code class="language-javascript">const messageManager = new MessageManager();</code></pre>
+<p>Next, add two listeners. One for the <code class="language-javascript">messageSent</code> event and another for <code class="language-javascript">messageReceived</code>:</p>
+<pre><code class="language-javascript">// Callback function to handle message sent event
+const messageSentListener = (message) =&gt; {
+  console.log(`Message sent: ${message}`);
+};
+
+// Callback function to handle message received event
+const messageReceivedListener = (message) =&gt; {
+  console.log(`Message received: ${message}`);
+};
+
+// Event: messageSent
+messageManager.on('messageSent', messageSentListener);
+// Event: messageReceived
+messageManager.on('messageReceived', messageReceivedListener);</code></pre>
+<p>The <code class="language-javascript">messageSent</code> and <code class="language-javascript">messageReceived</code> listeners simply log the messages to the console. Also, notice that you are capturing event data from the callback function. Here, the <code class="language-javascript">message</code> argument is the data that the event emits.</p>
+<p>Now use the <code class="language-javascript">sendMessage</code> and <code class="language-javascript">receiveMessage</code> functions to emit the events:</p>
+<pre><code class="language-javascript">messageManager.sendMessage('Hello, world!');
+messageManager.sendMessage('How are you?');
+
+messageManager.receiveMessage(); // Output: Message received: Hello, world!
+messageManager.receiveMessage(); // Output: Message received: How are you?
+
+// you can also call the previousMessages to see all messages
+const previousMessages = messageManager.getPreviousMessages();
+console.log('Previous messages:', previousMessages);</code></pre>
+<h5 id="handle-error-events">Handle Error Events</h5>
+<p>In Node.js, the Event Emitter module provides a built-in mechanism for handling errors using the <code class="language-javascript">error</code> event. When an error occurs within an Event Emitter instance, it emits the <code class="language-javascript">error</code> event, allowing you to handle and respond to the error appropriately.</p>
+<p>Let's go back to the <code class="language-javascript">receiveMessage</code> function and add an error handler in case there is no message:</p>
+<pre><code class="language-javascript">receiveMessage() {
+  if (this.messages.length === 0) {
+    this.emit('error', new Error('No message available'));
+    return;
+  }
+
+  const message = this.messages.shift();
+  this.receivedMessages.push(message); // Store the received message
+  this.emit('messageReceived', message);
+}
+</code></pre>
+<p>When an error occurs, you can emit the <code class="language-javascript">error</code> event by calling the <code class="language-javascript">emit()</code> method on the Event Emitter instance and passing an <code class="language-javascript">Error</code> object as the argument.</p>
+<p></p><div class="alert alert-warning">The <code class="language-javascript">error</code> event is a special event in the Event Emitter module, and emitting it triggers the error-handling mechanism.</div>
+<p>Next, listen for the <code class="language-javascript">error</code> event:</p>
+<pre><code class="language-javascript">// Event: messageSent
+...
+
+// Event: messageReceived
+
+...
+
+// Callback function to handle error event
+const errorListener = (error) =&gt; {
+  console.error(`An error occurred: ${error.message}`);
+};
+
+// Event: error
+messageManager.on('error', errorListener);
+</code></pre>
+<p></p><div class="alert alert-warning">It's important to note that if you don't listen for the <code class="language-javascript">error</code> event with an event listener, Node.js will throw an unhandled exception and terminate the process.</div>
+<p>Now if we call <code class="language-javascript">receiveMessage</code> without sending a message before:</p>
+<pre><code class="language-javascript">messageManager.receiveMessage(); // Output: An error occurred: No message available</code></pre>
+<h5 id="manage-event-listeners">Manage Event Listeners</h5>
+<p>To manage event listeners Node.js provides certain methods. If you need to count how many listeners are active you can use  <code class="language-javascript">listenerCount</code>. So, going back to the <code class="language-javascript">MessageManager</code> class, add a new method:</p>
+<pre><code class="language-javascript">countEventListeners(eventName) {
+  const listeners = this.listenerCount(eventName);
+  console.log(`Number of listeners for '${eventName}': ${listeners}`);
+}</code></pre>
+<p>The <code class="language-javascript">listenerCount</code> method takes the event name as the argument and returns the count. So when we call the new method:</p>
+<pre><code class="language-javascript">messageManager.countEventListeners('messageSent'); // Output: Number of listeners for 'messageSent': 1
+</code></pre>
+<p>Another important mechanism Node.js provides is removing the event listeners. This is important for several reasons:</p>
+<ol>
+<li>
+<p><strong>Memory management</strong>: When an event listener is registered, it creates a reference to the listener function. If the listener is not removed when it is no longer needed, it can lead to a memory leak. The Event Emitter will continue to hold a reference to the listener, preventing it from being garbage collected.</p>
+</li>
+<li>
+<p><strong>Preventing unintended side effects</strong>: If an event listener is not removed and the associated event continues to be emitted, the listener function will be invoked even if it is no longer required. This can result in unintended side effects or unnecessary processing.</p>
+</li>
+<li>
+<p><strong>Avoiding duplicate event handling</strong>: In some cases, you may dynamically add event listeners based on certain conditions or user interactions. If you don't remove the old event listeners before adding new ones, you may end up with multiple event listeners for the same event. This can lead to duplicate event handling and unexpected behavior.</p>
+</li>
+<li>
+<p><strong>Performance optimization</strong>: If an application has a large number of event listeners registered, it can impact performance. Event emission involves iterating over the registered listeners and invoking each listener function. By removing unnecessary event listeners, you can reduce the number of listeners that need to be iterated over during event emission, resulting in improved performance.</p>
+</li>
+</ol>
+<p>To remove an event listener, you typically use the <code class="language-javascript">removeListener()</code> method of the Event Emitter instance. Alternatively, you can use the <code class="language-javascript">off()</code> method, which is an alias for <code class="language-javascript">removeListener()</code>.</p>
+<p></p><div class="alert alert-primary">It's important to remove the listener using the same function that was used to register it, ensuring the correct listener is removed.</div>
+<p>Let's use the <code class="language-javascript">off</code> method to remove listeners at the end of our program:</p>
+<pre><code class="language-javascript">// Removing event listeners
+messageManager.off('messageSent', messageSentListener);
+messageManager.off('messageReceived', messageReceivedListener);
+
+// Though it's not necessary, you can also remove the error listener
+messageManager.off('error', errorListener);</code></pre>
+<p>Here, we use the <code class="language-javascript">off()</code> method to remove the event listeners for the <code class="language-javascript">'messageSent'</code>, <code class="language-javascript">'messageReceived'</code>, and <code class="language-javascript">'error'</code> events. By passing the event name and the corresponding listener function to <code class="language-javascript">off()</code>, we can remove the specific event listeners.</p>
+<p>Removing event listeners using <code class="language-javascript">off()</code> ensures that the listeners are no longer active and won't be invoked when the corresponding events are emitted.</p>
+<p>You could also remove all of the listeners of an event with this method <code class="language-javascript">removeAllListeners()</code>:</p>
+<pre><code class="language-javascript">// Inside MessageManager class
+removeListeners(eventName) {
+  this.removeAllListeners(eventName);
+  console.log(`All listeners for '${eventName}' removed`);
+}
+
+...
+
+messageManager.removeListeners('messageSent'); // Output: All listeners for 'messageSent' removed
+</code></pre>
+<p>Full program:</p>
+<pre><code class="language-javascript">const EventEmitter = require('events');
+
+class MessageManager extends EventEmitter {
+  constructor() {
+    super();
+    this.messages = [];
+    this.receivedMessages = [];
+  }
+
+  sendMessage(message) {
+    this.messages.push(message);
+    this.emit('messageSent', message);
+  }
+
+  receiveMessage() {
+    if (this.messages.length === 0) {
+      this.emit('error', new Error('No messages available'));
+      return;
+    }
+
+    const message = this.messages.shift();
+    this.receivedMessages.push(message); // Store the received message
+    this.emit('messageReceived', message);
+  }
+
+  getPreviousMessages() {
+    return this.receivedMessages;
+  }
+
+ countEventListeners(eventName) {
+    const listeners = this.listenerCount(eventName);
+    console.log(`Number of listeners for '${eventName}': ${listeners}`);
+  }
+
+  removeAllListeners(eventName) {
+    this.removeAllListeners(eventName);
+    console.log(`All listeners for '${eventName}' removed`);
+  }
+}
+
+// Usage example
+const messageManager = new MessageManager();
+
+// Callback function to handle message sent event
+const messageSentListener = (message) =&gt; {
+  console.log(`Message sent: ${message}`);
+};
+
+// Callback function to handle message received event
+const messageReceivedListener = (message) =&gt; {
+  console.log(`Message received: ${message}`);
+};
+
+// Callback function to handle error event
+const errorListener = (error) =&gt; {
+  console.error(`An error occurred: ${error.message}`);
+};
+
+// Event: messageSent
+messageManager.on('messageSent', messageSentListener);
+// Event: messageReceived
+messageManager.on('messageReceived', messageReceivedListener);
+// Event: error
+messageManager.on('error', errorListener);
+
+messageManager.sendMessage('Hello, world!');
+messageManager.sendMessage('How are you?');
+
+messageManager.receiveMessage(); // Output: Message received: Hello, world!
+messageManager.receiveMessage(); // Output: Message received: How are you?
+messageManager.receiveMessage(); // Output: An error occurred: No messages available
+
+const previousMessages = messageManager.getPreviousMessages();
+console.log('Previous messages:', previousMessages);
+
+messageManager.countEventListeners('messageSent'); // Output: Number of listeners for 'messageSent': 1
+
+// Removing event listeners
+messageManager.off('messageSent', messageSentListener);
+messageManager.off('messageReceived', messageReceivedListener);
+messageManager.off('error', errorListener);
+</code></pre>
+<p>The output of the program:</p>
+<pre><code class="language-no-highlight">Message sent: Hello, world!
+Message sent: How are you?
+Message received: Hello, world!
+Message received: How are you?
+An error occurred: No messages available
+Previous messages: [ 'Hello, world!', 'How are you?' ]
+Number of listeners for 'messageSent': 1</code></pre>
+<h5 id="conclusion">Conclusion</h5>
+<p>In this topic, you've studied a complete example of an Event Emitter in Node.js by creating a custom emitter class called <code class="language-javascript">MessageManager</code>. The program emits and listens to such events as <code class="language-javascript">messageSent</code>, and <code class="language-javascript">messageReceived</code>. The program also handles an error case with the special <code class="language-javascript">error</code> event. Also, the program can manage the event listeners by counting how many active listeners there are and removing them once they are no longer needed to help with memory efficiency and prevent unintended side effects. Following this example program, you are ready to use this module in projects.</p>
+</div>

@@ -1,0 +1,19 @@
+type: choice
+is_multiple_choice: true
+options:
+  - text: "Libraries like heapdump, memwatch-next"
+  - text: Heap snapshots in Google Chrome
+  - text: Profiler module launching with the --prof flag
+  - text: Telepathic Memory Monitoring
+  - text: A magical memory wand module called <code>memwizard</code>
+files:
+  - name: main.js
+    visible: true
+    text: |+
+      // You can experiment here, it won’t be checked
+    
+    learner_created: false
+feedback_link: https://hyperskill.org/learn/step/39159#comment
+status: Solved
+record: -1
+local_check: false
